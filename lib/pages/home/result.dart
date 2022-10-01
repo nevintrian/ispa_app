@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AboutApp extends StatelessWidget {
-  const AboutApp({super.key});
+class Result extends StatelessWidget {
+  const Result({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tentang Aplikasi'),
+        title: const Text('Hasil Deteksi ISPA'),
         centerTitle: true,
         backgroundColor: Colors.red,
         elevation: 0,
@@ -19,7 +19,7 @@ class AboutApp extends StatelessWidget {
             child: Column(
               children: [
                 const Text(
-                  'Penggunaan Aplikasi',
+                  'Hasil Deteksi ISPA : Pneumonia',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -35,14 +35,14 @@ class AboutApp extends StatelessWidget {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Tentang Aplikasi : ",
+                    "Definisi : ",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Aplikasi ini digunakan untuk mendeteksi ISPA menggunakan metode naive bayes. Aplikasi ini berbasis android.",
+                    'Yang termasuk gejala dari ISPA adalah badan pegal pegal (myalgia), beringus (rhinorrhea), batuk, sakit kepala, sakit pada tengorokan. Penyebab terjadinya ISPA adalah virus, bakteri dan jamur. Kebanyakan adalah virus. Diagnosis yang termasuk dalam keadaan ini adalah, rhinitis, sinusitis, faringitis, tosilitis dan laryngitis.',
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -52,14 +52,14 @@ class AboutApp extends StatelessWidget {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Halaman Login : ",
+                    "Penyebab : ",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Halaman login digunakan untuk admin memasukkan data latih dan data uji. Admin dapat login menggunakan : \nemail : admin@admin.com\npassword : password',
+                    'Yang termasuk gejala dari ISPA adalah badan pegal pegal (myalgia), beringus (rhinorrhea), batuk, sakit kepala, sakit pada tengorokan. Penyebab terjadinya ISPA adalah virus, bakteri dan jamur. Kebanyakan adalah virus. Diagnosis yang termasuk dalam keadaan ini adalah, rhinitis, sinusitis, faringitis, tosilitis dan laryngitis.',
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -69,48 +69,14 @@ class AboutApp extends StatelessWidget {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Halaman Deteksi ISPA : ",
+                    "Pengobatan : ",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Halaman ini digunakan untuk mendeteksi ISPA dari hasil kuesioner yang telah diisikan sebelumnya. Hasilnya akan diketahui penyakit ISPA yang kemungkinan diderita oleh pasien.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Halaman Data Training : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Halaman data training adalah halaman yang digunakan untuk memberikan pengetahuan kepada algoritma naive bayes, agar dapat mempelajari perilaku penyakit ISPA.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Halaman Data Uji : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Halaman data uji adalah halaman yang digunakan untuk menentukan akurasi dari metode naive bayes dan pemrosesan data.',
+                    'Yang termasuk gejala dari ISPA adalah badan pegal pegal (myalgia), beringus (rhinorrhea), batuk, sakit kepala, sakit pada tengorokan. Penyebab terjadinya ISPA adalah virus, bakteri dan jamur. Kebanyakan adalah virus. Diagnosis yang termasuk dalam keadaan ini adalah, rhinitis, sinusitis, faringitis, tosilitis dan laryngitis.',
                     textAlign: TextAlign.justify,
                   ),
                 ),

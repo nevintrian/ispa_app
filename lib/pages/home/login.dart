@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/pages/admin/home.dart' as home_admin;
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -15,16 +16,6 @@ class Login extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            Container(
-              height: 30,
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-            ),
             Container(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -58,8 +49,10 @@ class Login extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //     context, MaterialPageRoute(builder: (_) => HomePage()));
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const home_admin.Home()),
+                            (Route<dynamic> route) => false);
                       },
                       child: const Text(
                         'Login',

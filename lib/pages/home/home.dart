@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/pages/home/login.dart';
 import 'package:ispa_app/pages/home/about.ispa.dart';
 import 'package:ispa_app/pages/home/about_app.dart';
 import 'package:ispa_app/pages/home/ispa.dart';
-import 'package:ispa_app/pages/home/login.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -37,8 +37,10 @@ class Home extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: const <Widget>[
                       ListTile(
-                        title: Text('Aplikasi Deteksi Penyakit ISPA'),
-                        subtitle: Text('Akurasi Deteksi ISPA = 88%'),
+                        title: Center(
+                            child: Text('Aplikasi Deteksi Penyakit ISPA')),
+                        subtitle:
+                            Center(child: Text('Akurasi Deteksi ISPA = 88%')),
                       ),
                     ],
                   ),
@@ -119,7 +121,7 @@ class Home extends StatelessWidget {
                 ],
               )),
           Container(
-              padding: const EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
               child: Column(
                 children: [
                   Row(

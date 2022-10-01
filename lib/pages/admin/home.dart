@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/pages/admin/data_training/data_training_view.dart';
+import 'package:ispa_app/pages/admin/data_uji/data_uji_view.dart';
 import 'package:ispa_app/pages/home/about.ispa.dart';
 import 'package:ispa_app/pages/home/about_app.dart';
+import 'package:ispa_app/pages/home/home.dart' as home_user;
+import 'package:ispa_app/pages/home/ispa.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -49,8 +53,15 @@ class Home extends StatelessWidget {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {},
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DataTrainingView()),
+                                        );
+                                      },
                                       child: Center(
                                           child: SizedBox(
                                         height: 100,
@@ -61,7 +72,9 @@ class Home extends StatelessWidget {
                                           children: const [
                                             Text(
                                               '15',
-                                              style: TextStyle(fontSize: 20),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text('Total Data Training')
                                           ],
@@ -74,8 +87,15 @@ class Home extends StatelessWidget {
                                     thickness: 10,
                                   ),
                                   Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {},
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DataUjiView()),
+                                        );
+                                      },
                                       child: Center(
                                           child: SizedBox(
                                         height: 100,
@@ -86,7 +106,9 @@ class Home extends StatelessWidget {
                                           children: const [
                                             Text(
                                               '15',
-                                              style: TextStyle(fontSize: 20),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text('Total Data Uji')
                                           ],
@@ -112,7 +134,13 @@ class Home extends StatelessWidget {
                     children: [
                       Expanded(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Ispa()),
+                            );
+                          },
                           child: Card(
                             elevation: 4, // Change this
                             shadowColor: Colors.black12, // Change this
@@ -138,10 +166,11 @@ class Home extends StatelessWidget {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const Home()),
-                            );
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const home_user.Home()),
+                                (Route<dynamic> route) => false);
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -253,7 +282,8 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AboutIspa()),
+                                  builder: (context) =>
+                                      const DataTrainingView()),
                             );
                           },
                           child: Card(
@@ -284,7 +314,7 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AboutApp()),
+                                  builder: (context) => const DataUjiView()),
                             );
                           },
                           child: Card(
