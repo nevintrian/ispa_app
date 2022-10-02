@@ -18,47 +18,18 @@ class DataTrainingView extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         children: <Widget>[
           Card(
-            child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const DataTrainingEdit()),
-                  );
-                },
-                title: const Text("Battery Full"),
-                subtitle: const Text("The battery is full."),
-                leading: const Icon(Icons.battery_full),
-                trailing: const Icon(Icons.star)),
-          ),
-          Card(
-            child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const DataTrainingEdit()),
-                  );
-                },
-                title: const Text("Anchor"),
-                subtitle: const Text("Lower the anchor."),
-                leading: const Icon(Icons.anchor),
-                trailing: const Icon(Icons.star)),
-          ),
-          Card(
-            child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const DataTrainingEdit()),
-                  );
-                },
-                title: const Text("Alarm"),
-                subtitle: const Text("This is the time."),
-                leading: const Icon(Icons.access_alarm),
-                trailing: const Icon(Icons.star)),
-          ),
+              child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DataTrainingEdit()),
+                    );
+                  },
+                  title: const Text("Nevin Trian"),
+                  subtitle: const Text("Batuk Berdahak"),
+                  leading: const Icon(Icons.account_circle),
+                  trailing: const Text("Laki laki"))),
           Card(
               child: ListTile(
                   onTap: () {
@@ -68,10 +39,36 @@ class DataTrainingView extends StatelessWidget {
                           builder: (context) => const DataTrainingEdit()),
                     );
                   },
-                  title: const Text("Ballot"),
-                  subtitle: const Text("Cast your vote."),
-                  leading: const Icon(Icons.ballot),
-                  trailing: const Icon(Icons.star))),
+                  title: const Text("Nevin Trian"),
+                  subtitle: const Text("Batuk Berdahak"),
+                  leading: const Icon(Icons.account_circle),
+                  trailing: const Text("Laki laki"))),
+          Card(
+              child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DataTrainingEdit()),
+                    );
+                  },
+                  title: const Text("Nevin Trian"),
+                  subtitle: const Text("Batuk Berdahak"),
+                  leading: const Icon(Icons.account_circle),
+                  trailing: const Text("Laki laki"))),
+          Card(
+              child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DataTrainingEdit()),
+                    );
+                  },
+                  title: const Text("Nevin Trian"),
+                  subtitle: const Text("Batuk Berdahak"),
+                  leading: const Icon(Icons.account_circle),
+                  trailing: const Text("Laki laki"))),
         ],
       ),
       floatingActionButton: FloatingActionButton(
