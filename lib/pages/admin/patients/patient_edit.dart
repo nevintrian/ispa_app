@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/pages/admin/data_training/data_training_view.dart';
+import 'package:ispa_app/pages/admin/patients/patient_view.dart';
 
-class DataTrainingEdit extends StatefulWidget {
-  const DataTrainingEdit({Key? key}) : super(key: key);
+class PatientEdit extends StatefulWidget {
+  const PatientEdit({Key? key}) : super(key: key);
 
   @override
-  DataTrainingEditState createState() => DataTrainingEditState();
+  PatientEditState createState() => PatientEditState();
 }
 
-class DataTrainingEditState extends State<DataTrainingEdit>
+class PatientEditState extends State<PatientEdit>
     with SingleTickerProviderStateMixin {
   int? x1, x2, x3, x4, x5, x6, x7, x8, x9;
   late String jenisKelaminValue;
@@ -57,7 +57,7 @@ class DataTrainingEditState extends State<DataTrainingEdit>
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Edit Data Training'),
+          title: const Text('Ubah Data Pasien'),
           centerTitle: true,
           backgroundColor: Colors.red,
           elevation: 0,
@@ -72,7 +72,7 @@ class DataTrainingEditState extends State<DataTrainingEdit>
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Hapus Data Training'),
+                        title: const Text('Hapus Data Pasien'),
                         content: SingleChildScrollView(
                           child: ListBody(
                             children: const <Widget>[
@@ -947,7 +947,7 @@ class DataTrainingEditState extends State<DataTrainingEdit>
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const DataTrainingView()));
+                                  builder: (_) => const PatientView()));
                         },
                         child: const Text(
                           'Ubah',

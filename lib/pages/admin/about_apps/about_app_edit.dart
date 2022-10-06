@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/pages/admin/data_training/data_training_view.dart';
+import 'package:ispa_app/pages/admin/about_apps/about_app_view.dart';
 
-class DataUjiCreate extends StatefulWidget {
-  const DataUjiCreate({Key? key}) : super(key: key);
+class AboutAppEdit extends StatefulWidget {
+  const AboutAppEdit({Key? key}) : super(key: key);
 
   @override
-  DataUjiCreateState createState() => DataUjiCreateState();
+  AboutAppEditState createState() => AboutAppEditState();
 }
 
-class DataUjiCreateState extends State<DataUjiCreate>
+class AboutAppEditState extends State<AboutAppEdit>
     with SingleTickerProviderStateMixin {
   int? x1, x2, x3, x4, x5, x6, x7, x8, x9;
   late String jenisKelaminValue;
@@ -57,14 +57,51 @@ class DataUjiCreateState extends State<DataUjiCreate>
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          title: const Text('Ubah Data Tentang Aplikasi'),
+          centerTitle: true,
+          backgroundColor: Colors.red,
+          elevation: 0,
           bottom: TabBar(
             tabs: myTabs,
             controller: _tabController,
           ),
-          title: const Text('Tambah Data Uji'),
-          centerTitle: true,
-          backgroundColor: Colors.red,
-          elevation: 0,
+          actions: [
+            InkWell(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Hapus Data Tentang Aplikasi'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: const <Widget>[
+                              Text('Apa anda ingin menghapus data?'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ya'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Tidak'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              },
+              child: Container(
+                  padding: const EdgeInsets.all(15),
+                  child: const Icon(Icons.delete)),
+            )
+          ],
         ),
         body: TabBarView(
           controller: _tabController,
@@ -910,10 +947,10 @@ class DataUjiCreateState extends State<DataUjiCreate>
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const DataTrainingView()));
+                                  builder: (_) => const AboutAppView()));
                         },
                         child: const Text(
-                          'Simpan',
+                          'Ubah',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

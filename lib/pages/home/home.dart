@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ispa_app/pages/home/login.dart';
-import 'package:ispa_app/pages/home/about.ispa.dart';
+import 'package:ispa_app/pages/home/about_disease.dart';
 import 'package:ispa_app/pages/home/about_app.dart';
-import 'package:ispa_app/pages/home/ispa.dart';
+import 'package:ispa_app/pages/home/test.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -60,7 +60,7 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Ispa()),
+                                  builder: (context) => const Test()),
                             );
                           },
                           child: Card(
@@ -132,7 +132,7 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AboutIspa()),
+                                  builder: (context) => const AboutDisease()),
                             );
                           },
                           child: Card(

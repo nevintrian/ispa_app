@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/pages/admin/data_uji/data_uji_create.dart';
-import 'package:ispa_app/pages/admin/data_uji/data_uji_edit.dart';
+import 'package:ispa_app/pages/admin/about_apps/about_app_create.dart';
+import 'package:ispa_app/pages/admin/about_apps/about_app_edit.dart';
 
-class DataUjiView extends StatelessWidget {
-  const DataUjiView({super.key});
+class AboutAppView extends StatelessWidget {
+  const AboutAppView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Uji'),
+        title: const Text('Data Tentang Aplikasi'),
         centerTitle: true,
         backgroundColor: Colors.red,
         elevation: 0,
@@ -23,7 +23,7 @@ class DataUjiView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const DataUjiEdit()),
+                          builder: (context) => const AboutAppEdit()),
                     );
                   },
                   title: const Text("Nevin Trian"),
@@ -36,7 +36,7 @@ class DataUjiView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const DataUjiEdit()),
+                          builder: (context) => const AboutAppEdit()),
                     );
                   },
                   title: const Text("Nevin Trian"),
@@ -49,7 +49,7 @@ class DataUjiView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const DataUjiEdit()),
+                          builder: (context) => const AboutAppEdit()),
                     );
                   },
                   title: const Text("Nevin Trian"),
@@ -62,7 +62,7 @@ class DataUjiView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const DataUjiEdit()),
+                          builder: (context) => const AboutAppEdit()),
                     );
                   },
                   title: const Text("Nevin Trian"),
@@ -75,7 +75,7 @@ class DataUjiView extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const DataUjiCreate()),
+            MaterialPageRoute(builder: (context) => const AboutAppCreate()),
           );
         },
         backgroundColor: Colors.red,

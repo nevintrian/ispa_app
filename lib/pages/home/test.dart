@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ispa_app/pages/home/result.dart';
 
-class Ispa extends StatefulWidget {
-  const Ispa({Key? key}) : super(key: key);
+class Test extends StatefulWidget {
+  const Test({Key? key}) : super(key: key);
 
   @override
-  IspaState createState() => IspaState();
+  TestState createState() => TestState();
 }
 
-class IspaState extends State<Ispa> {
+class TestState extends State<Test> {
   int? x1, x2, x3, x4, x5, x6, x7, x8, x9;
 
   @override
@@ -16,7 +16,7 @@ class IspaState extends State<Ispa> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Deteksi ISPA'),
+        title: const Text('Deteksi Test'),
         centerTitle: true,
         backgroundColor: Colors.red,
         elevation: 0,

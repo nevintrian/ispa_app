@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/pages/admin/data_training/data_training_view.dart';
 
-class DataUjiEdit extends StatefulWidget {
-  const DataUjiEdit({Key? key}) : super(key: key);
+class AboutDiseaseEdit extends StatefulWidget {
+  const AboutDiseaseEdit({Key? key}) : super(key: key);
 
   @override
-  DataUjiEditState createState() => DataUjiEditState();
+  AboutDiseaseEditState createState() => AboutDiseaseEditState();
 }
 
-class DataUjiEditState extends State<DataUjiEdit>
+class AboutDiseaseEditState extends State<AboutDiseaseEdit>
     with SingleTickerProviderStateMixin {
   int? x1, x2, x3, x4, x5, x6, x7, x8, x9;
   late String jenisKelaminValue;
@@ -57,7 +56,7 @@ class DataUjiEditState extends State<DataUjiEdit>
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Edit Data Uji'),
+          title: const Text('Ubah Data Tentang ISPA'),
           centerTitle: true,
           backgroundColor: Colors.red,
           elevation: 0,
@@ -72,7 +71,7 @@ class DataUjiEditState extends State<DataUjiEdit>
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Hapus Data Uji'),
+                        title: const Text('Hapus Data Tentang ISPA'),
                         content: SingleChildScrollView(
                           child: ListBody(
                             children: const <Widget>[
@@ -947,7 +946,7 @@ class DataUjiEditState extends State<DataUjiEdit>
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const DataTrainingView()));
+                                  builder: (_) => const AboutDiseaseEdit()));
                         },
                         child: const Text(
                           'Ubah',

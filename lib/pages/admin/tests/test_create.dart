@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/pages/admin/data_training/data_training_view.dart';
+import 'package:ispa_app/pages/admin/patients/patient_view.dart';
 
-class DataTrainingCreate extends StatefulWidget {
-  const DataTrainingCreate({Key? key}) : super(key: key);
+class TestCreate extends StatefulWidget {
+  const TestCreate({Key? key}) : super(key: key);
 
   @override
-  DataTrainingCreateState createState() => DataTrainingCreateState();
+  TestCreateState createState() => TestCreateState();
 }
 
-class DataTrainingCreateState extends State<DataTrainingCreate>
+class TestCreateState extends State<TestCreate>
     with SingleTickerProviderStateMixin {
   int? x1, x2, x3, x4, x5, x6, x7, x8, x9;
   late String jenisKelaminValue;
@@ -61,7 +61,7 @@ class DataTrainingCreateState extends State<DataTrainingCreate>
             tabs: myTabs,
             controller: _tabController,
           ),
-          title: const Text('Tambah Data Training'),
+          title: const Text('Tambah Data Pengujian'),
           centerTitle: true,
           backgroundColor: Colors.red,
           elevation: 0,
@@ -910,7 +910,7 @@ class DataTrainingCreateState extends State<DataTrainingCreate>
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const DataTrainingView()));
+                                  builder: (_) => const PatientView()));
                         },
                         child: const Text(
                           'Simpan',

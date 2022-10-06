@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/pages/admin/data_training/data_training_view.dart';
-import 'package:ispa_app/pages/admin/data_uji/data_uji_view.dart';
-import 'package:ispa_app/pages/home/about.ispa.dart';
-import 'package:ispa_app/pages/home/about_app.dart';
+import 'package:ispa_app/pages/admin/patients/patient_view.dart';
+import 'package:ispa_app/pages/admin/tests/test_view.dart';
+import 'package:ispa_app/pages/home/about_disease.dart' as home_about_disease;
+import 'package:ispa_app/pages/admin/about_diseases/about_disease_view.dart'
+    as admin_about_disease;
+import 'package:ispa_app/pages/home/about_app.dart' as home_about_app;
+import 'package:ispa_app/pages/admin/about_apps/about_app_view.dart'
+    as admin_about_app;
 import 'package:ispa_app/pages/home/home.dart' as home_user;
-import 'package:ispa_app/pages/home/ispa.dart';
+import 'package:ispa_app/pages/home/test.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -59,7 +63,7 @@ class Home extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const DataTrainingView()),
+                                                  const TestView()),
                                         );
                                       },
                                       child: Center(
@@ -93,7 +97,7 @@ class Home extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const DataUjiView()),
+                                                  const TestView()),
                                         );
                                       },
                                       child: Center(
@@ -127,7 +131,15 @@ class Home extends StatelessWidget {
             ],
           ),
           Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+            padding: const EdgeInsets.only(bottom: 10, top: 10),
+            child: const Center(
+                child: Text(
+              'Halaman Beranda',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            )),
+          ),
+          Container(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 children: [
                   Row(
@@ -138,7 +150,7 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Ispa()),
+                                  builder: (context) => const Test()),
                             );
                           },
                           child: Card(
@@ -166,11 +178,42 @@ class Home extends StatelessWidget {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const home_user.Home()),
-                                (Route<dynamic> route) => false);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Logout Admin'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: const <Widget>[
+                                          Text('Apa anda ingin logout?'),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Ya'),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder:
+                                                          (context) =>
+                                                              const home_user
+                                                                  .Home()),
+                                                  (Route<dynamic> route) =>
+                                                      false);
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text('Tidak'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -210,7 +253,8 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AboutIspa()),
+                                  builder: (context) =>
+                                      const home_about_disease.AboutDisease()),
                             );
                           },
                           child: Card(
@@ -241,7 +285,8 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AboutApp()),
+                                  builder: (context) =>
+                                      const home_about_app.AboutApp()),
                             );
                           },
                           child: Card(
@@ -271,7 +316,15 @@ class Home extends StatelessWidget {
                 ],
               )),
           Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            padding: const EdgeInsets.only(top: 30, bottom: 10),
+            child: const Center(
+                child: Text(
+              'Pengaturan Data',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            )),
+          ),
+          Container(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 children: [
                   Row(
@@ -282,8 +335,7 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DataTrainingView()),
+                                  builder: (context) => const PatientView()),
                             );
                           },
                           child: Card(
@@ -298,10 +350,10 @@ class Home extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Image.asset(
-                                    'assets/images/data_training.png',
+                                    'assets/images/patient.png',
                                     height: 75,
                                   ),
-                                  const Text('Data Training')
+                                  const Text('Data Pasien')
                                 ],
                               )),
                             )),
@@ -314,7 +366,7 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DataUjiView()),
+                                  builder: (context) => const TestView()),
                             );
                           },
                           child: Card(
@@ -329,10 +381,85 @@ class Home extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Image.asset(
-                                    'assets/images/data_uji.png',
+                                    'assets/images/test.png',
                                     height: 75,
                                   ),
-                                  const Text('Data Uji')
+                                  const Text('Data Pengujian')
+                                ],
+                              )),
+                            )),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )),
+          Container(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const admin_about_app.AboutAppView()),
+                            );
+                          },
+                          child: Card(
+                            elevation: 4, // Change this
+                            shadowColor: Colors.black12, // Change this
+                            child: Center(
+                                child: SizedBox(
+                              height: 150,
+                              child: Center(
+                                  child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/about_app_data.png',
+                                    height: 75,
+                                  ),
+                                  const Text('Data Tentang Aplikasi')
+                                ],
+                              )),
+                            )),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const admin_about_disease
+                                          .AboutDiseaseView()),
+                            );
+                          },
+                          child: Card(
+                            elevation: 4, // Change this
+                            shadowColor: Colors.black12, // Change this
+                            child: Center(
+                                child: SizedBox(
+                              height: 150,
+                              child: Center(
+                                  child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/about_ispa_data.png',
+                                    height: 75,
+                                  ),
+                                  const Text('Data Tentang ISPA')
                                 ],
                               )),
                             )),

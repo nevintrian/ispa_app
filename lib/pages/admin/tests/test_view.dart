@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/pages/admin/data_training/data_training_create.dart';
-import 'package:ispa_app/pages/admin/data_training/data_training_edit.dart';
+import 'package:ispa_app/pages/admin/tests/test_create.dart';
+import 'package:ispa_app/pages/admin/tests/test_edit.dart';
 
-class DataTrainingView extends StatelessWidget {
-  const DataTrainingView({super.key});
+class TestView extends StatelessWidget {
+  const TestView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Training'),
+        title: const Text('Data Pengujian'),
         centerTitle: true,
         backgroundColor: Colors.red,
         elevation: 0,
@@ -22,8 +22,7 @@ class DataTrainingView extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const DataTrainingEdit()),
+                      MaterialPageRoute(builder: (context) => const TestEdit()),
                     );
                   },
                   title: const Text("Nevin Trian"),
@@ -35,8 +34,7 @@ class DataTrainingView extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const DataTrainingEdit()),
+                      MaterialPageRoute(builder: (context) => const TestEdit()),
                     );
                   },
                   title: const Text("Nevin Trian"),
@@ -48,8 +46,7 @@ class DataTrainingView extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const DataTrainingEdit()),
+                      MaterialPageRoute(builder: (context) => const TestEdit()),
                     );
                   },
                   title: const Text("Nevin Trian"),
@@ -61,8 +58,7 @@ class DataTrainingView extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const DataTrainingEdit()),
+                      MaterialPageRoute(builder: (context) => const TestEdit()),
                     );
                   },
                   title: const Text("Nevin Trian"),
@@ -75,7 +71,7 @@ class DataTrainingView extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const DataTrainingCreate()),
+            MaterialPageRoute(builder: (context) => const TestCreate()),
           );
         },
         backgroundColor: Colors.red,
