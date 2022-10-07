@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/models/session_model.dart';
+import 'package:ispa_app/pages/admin/diseases/disease_view.dart';
 import 'package:ispa_app/pages/admin/patients/patient_view.dart';
 import 'package:ispa_app/pages/admin/tests/test_view.dart';
 import 'package:ispa_app/pages/home/about_disease.dart' as home_about_disease;
@@ -15,6 +17,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionModel sessionModel = SessionModel();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Aplikasi ISPA'),
@@ -194,6 +197,7 @@ class Home extends StatelessWidget {
                                       TextButton(
                                         child: const Text('Ya'),
                                         onPressed: () {
+                                          sessionModel.removeSession();
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
                                                   MaterialPageRoute(
@@ -396,7 +400,7 @@ class Home extends StatelessWidget {
                 ],
               )),
           Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 children: [
                   Row(
@@ -407,8 +411,7 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const admin_about_app.AboutAppView()),
+                                  builder: (context) => const DiseaseView()),
                             );
                           },
                           child: Card(
@@ -423,10 +426,10 @@ class Home extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Image.asset(
-                                    'assets/images/about_app_data.png',
+                                    'assets/images/about_ispa.png',
                                     height: 75,
                                   ),
-                                  const Text('Data Tentang Aplikasi')
+                                  const Text('Data Penyakit')
                                 ],
                               )),
                             )),
@@ -460,6 +463,48 @@ class Home extends StatelessWidget {
                                     height: 75,
                                   ),
                                   const Text('Data Tentang ISPA')
+                                ],
+                              )),
+                            )),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )),
+          Container(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const admin_about_app.AboutAppView()),
+                            );
+                          },
+                          child: Card(
+                            elevation: 4, // Change this
+                            shadowColor: Colors.black12, // Change this
+                            child: Center(
+                                child: SizedBox(
+                              height: 150,
+                              child: Center(
+                                  child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/about_app_data.png',
+                                    height: 75,
+                                  ),
+                                  const Text('Data Tentang Aplikasi')
                                 ],
                               )),
                             )),
