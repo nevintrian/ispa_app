@@ -15,7 +15,7 @@ class PatientModel {
     return json.decode(result.body)['data'];
   }
 
-  Future<int> addPatient(
+  Future<dynamic> addPatient(
       String name,
       String gender,
       String age,
@@ -47,10 +47,10 @@ class PatientModel {
         'label_from_disease': labelFormDisease
       },
     );
-    return json.decode(result.body)['message']['status'];
+    return json.decode(result.body);
   }
 
-  Future<int> updatePatient(
+  Future<dynamic> updatePatient(
       int id,
       String name,
       String gender,
@@ -83,11 +83,11 @@ class PatientModel {
         'label_from_disease': labelFormDisease
       },
     );
-    return json.decode(result.body)['message']['status'];
+    return json.decode(result.body);
   }
 
-  Future<int> deletePatient(int id) async {
+  Future<dynamic> deletePatient(int id) async {
     var result = await http.delete(Uri.parse("${ApiUrl.url}$url/$id"));
-    return json.decode(result.body)['message']['status'];
+    return json.decode(result.body);
   }
 }

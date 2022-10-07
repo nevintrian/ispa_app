@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:ispa_app/constants/api_url.dart';
 
 class AboutDiseaseModel {
-  String url = "/about_Diseases";
+  String url = "/about_diseases";
 
   Future<List<dynamic>?> getAboutDisease() async {
     var result = await http.get(Uri.parse(ApiUrl.url + url));
@@ -15,7 +15,7 @@ class AboutDiseaseModel {
     return json.decode(result.body)['data'];
   }
 
-  Future<int> addAboutDisease(
+  Future<dynamic> addAboutDisease(
     String title,
     String description,
   ) async {
@@ -26,10 +26,10 @@ class AboutDiseaseModel {
         'description': description,
       },
     );
-    return json.decode(result.body)['message']['status'];
+    return json.decode(result.body);
   }
 
-  Future<int> updateAboutDisease(
+  Future<dynamic> updateAboutDisease(
     int id,
     String title,
     String description,
@@ -41,12 +41,11 @@ class AboutDiseaseModel {
         'description': description,
       },
     );
-    return json.decode(result.body)['message']['status'];
+    return json.decode(result.body);
   }
 
-  Future<int> deleteAboutDisease(int id) async {
+  Future<dynamic> deleteAboutDisease(int id) async {
     var result = await http.delete(Uri.parse("${ApiUrl.url}$url/$id"));
-    return json.decode(result.body)['message']['status'];
+    return json.decode(result.body);
   }
-  
 }

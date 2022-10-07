@@ -15,7 +15,7 @@ class TestModel {
     return json.decode(result.body)['data'];
   }
 
-  Future<int> addTest(
+  Future<dynamic> addTest(
       String name,
       String gender,
       String age,
@@ -47,11 +47,11 @@ class TestModel {
         'label_from_disease': labelFormDisease
       },
     );
-    return json.decode(result.body)['message']['status'];
+    return json.decode(result.body);
   }
 
-  Future<int> deleteTest(int id) async {
+  Future<dynamic> deleteTest(int id) async {
     var result = await http.delete(Uri.parse("${ApiUrl.url}$url/$id"));
-    return json.decode(result.body)['message']['status'];
+    return json.decode(result.body);
   }
 }
