@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/models/disease_model.dart';
+import 'package:ispa_app/models/patient_model.dart';
 import 'package:ispa_app/pages/admin/patients/patient_view.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class PatientCreate extends StatefulWidget {
   const PatientCreate({Key? key}) : super(key: key);
@@ -10,19 +13,24 @@ class PatientCreate extends StatefulWidget {
 
 class PatientCreateState extends State<PatientCreate>
     with SingleTickerProviderStateMixin {
-  int? x1, x2, x3, x4, x5, x6, x7, x8, x9;
+  int x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0;
   late String jenisKelaminValue;
-  late String jenisPenyakitValue;
+  late int jenisPenyakitValue;
+
+  bool _saving = false;
+  var formKey = GlobalKey<FormState>();
+  PatientModel patientModel = PatientModel();
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+
+  late Future<dynamic> diseaseList;
+  DiseaseModel diseaseModel = DiseaseModel();
+  var jenisPenyakitData = [];
 
   var jenisKelaminData = [
     'Laki laki',
     'Perempuan',
-  ];
-
-  var jenisPenyakitData = [
-    'Batuk Bukan Pneumonia',
-    'Pneumonia',
-    'Pneumonia Berat'
   ];
 
   late TabController _tabController;
@@ -48,6 +56,8 @@ class PatientCreateState extends State<PatientCreate>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
+    diseaseList =
+        diseaseModel.getDisease().then((value) => {jenisPenyakitData = value!});
   }
 
   @override
@@ -69,100 +79,134 @@ class PatientCreateState extends State<PatientCreate>
         body: TabBarView(
           controller: _tabController,
           children: [
-            ListView(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: TextField(
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.account_circle),
-                              border: OutlineInputBorder(),
-                              labelText: 'Nama',
-                              hintText: 'Masukkan Nama'),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 20),
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.account_circle),
-                              border: OutlineInputBorder(),
-                              labelText: 'Umur',
-                              hintText: 'Masukkan Umur'),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.account_circle),
-                              border: OutlineInputBorder(),
-                              labelText: 'Jenis Kelamin',
-                              hintText: 'Pilih Jenis Kelamin'),
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: jenisKelaminData.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              jenisKelaminValue = newValue!;
-                            });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.account_circle),
-                              border: OutlineInputBorder(),
-                              labelText: 'Jenis Penyakit',
-                              hintText: 'Pilih Jenis Penyakit'),
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: jenisPenyakitData.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              jenisPenyakitValue = newValue!;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 50,
-                        width: width,
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: TextButton(
-                          onPressed: () {
-                            changeMyTab();
-                          },
-                          child: const Text(
-                            'Lanjutkan',
-                            style: TextStyle(color: Colors.white),
+            ModalProgressHUD(
+              inAsyncCall: _saving,
+              child: Form(
+                key: formKey,
+                child: ListView(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: TextFormField(
+                              controller: nameController,
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Nama',
+                                  hintText: 'Masukkan Nama'),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Data belum diisi';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 20),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: ageController,
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Umur',
+                                  hintText: 'Masukkan Umur'),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Data belum diisi';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: DropdownButtonFormField(
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Jenis Kelamin',
+                                  hintText: 'Pilih Jenis Kelamin'),
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              items: jenisKelaminData.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  jenisKelaminValue = newValue!;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Data belum diisi';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: DropdownButtonFormField(
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Jenis Penyakit',
+                                  hintText: 'Pilih Jenis Penyakit'),
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              items: jenisPenyakitData.map((item) {
+                                return DropdownMenuItem(
+                                  value: item['id'],
+                                  child: Text(item['name']),
+                                );
+                              }).toList(),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  jenisPenyakitValue = newValue as int;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Data belum diisi';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            height: 50,
+                            width: width,
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: TextButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  changeMyTab();
+                                }
+                              },
+                              child: const Text(
+                                'Lanjutkan',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              ],
+                    )
+                  ],
+                ),
+              ),
             ),
             SingleChildScrollView(
               child: Padding(
@@ -205,7 +249,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x1,
                                   onChanged: (value) {
                                     setState(() {
-                                      x1 = value;
+                                      x1 = value!;
                                     });
                                   },
                                 )
@@ -241,7 +285,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x1,
                                   onChanged: (value) {
                                     setState(() {
-                                      x1 = value;
+                                      x1 = value!;
                                     });
                                   },
                                 )
@@ -286,7 +330,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x2,
                                   onChanged: (value) {
                                     setState(() {
-                                      x2 = value;
+                                      x2 = value!;
                                     });
                                   },
                                 )
@@ -322,7 +366,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x2,
                                   onChanged: (value) {
                                     setState(() {
-                                      x2 = value;
+                                      x2 = value!;
                                     });
                                   },
                                 )
@@ -367,7 +411,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x3,
                                   onChanged: (value) {
                                     setState(() {
-                                      x3 = value;
+                                      x3 = value!;
                                     });
                                   },
                                 )
@@ -403,7 +447,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x3,
                                   onChanged: (value) {
                                     setState(() {
-                                      x3 = value;
+                                      x3 = value!;
                                     });
                                   },
                                 )
@@ -448,7 +492,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x4,
                                   onChanged: (value) {
                                     setState(() {
-                                      x4 = value;
+                                      x4 = value!;
                                     });
                                   },
                                 )
@@ -484,7 +528,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x4,
                                   onChanged: (value) {
                                     setState(() {
-                                      x4 = value;
+                                      x4 = value!;
                                     });
                                   },
                                 )
@@ -529,7 +573,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x5,
                                   onChanged: (value) {
                                     setState(() {
-                                      x5 = value;
+                                      x5 = value!;
                                     });
                                   },
                                 )
@@ -565,7 +609,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x5,
                                   onChanged: (value) {
                                     setState(() {
-                                      x5 = value;
+                                      x5 = value!;
                                     });
                                   },
                                 )
@@ -610,7 +654,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x6,
                                   onChanged: (value) {
                                     setState(() {
-                                      x6 = value;
+                                      x6 = value!;
                                     });
                                   },
                                 )
@@ -646,7 +690,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x6,
                                   onChanged: (value) {
                                     setState(() {
-                                      x6 = value;
+                                      x6 = value!;
                                     });
                                   },
                                 )
@@ -691,7 +735,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x7,
                                   onChanged: (value) {
                                     setState(() {
-                                      x7 = value;
+                                      x7 = value!;
                                     });
                                   },
                                 )
@@ -727,7 +771,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x7,
                                   onChanged: (value) {
                                     setState(() {
-                                      x7 = value;
+                                      x7 = value!;
                                     });
                                   },
                                 )
@@ -772,7 +816,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x8,
                                   onChanged: (value) {
                                     setState(() {
-                                      x8 = value;
+                                      x8 = value!;
                                     });
                                   },
                                 )
@@ -808,7 +852,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x8,
                                   onChanged: (value) {
                                     setState(() {
-                                      x8 = value;
+                                      x8 = value!;
                                     });
                                   },
                                 )
@@ -853,7 +897,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x9,
                                   onChanged: (value) {
                                     setState(() {
-                                      x9 = value;
+                                      x9 = value!;
                                     });
                                   },
                                 )
@@ -889,7 +933,7 @@ class PatientCreateState extends State<PatientCreate>
                                   groupValue: x9,
                                   onChanged: (value) {
                                     setState(() {
-                                      x9 = value;
+                                      x9 = value!;
                                     });
                                   },
                                 )
@@ -906,6 +950,24 @@ class PatientCreateState extends State<PatientCreate>
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                         onPressed: () {
+                          setState(() {
+                            _saving = true;
+                          });
+
+                          patientModel.addPatient(
+                              nameController.text,
+                              jenisKelaminValue,
+                              int.parse(ageController.text),
+                              x1,
+                              x2,
+                              x3,
+                              x4,
+                              x5,
+                              x6,
+                              x7,
+                              x8,
+                              x9,
+                              jenisPenyakitValue);
                           Navigator.pop(context);
                           Navigator.pushReplacement(
                               context,

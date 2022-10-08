@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/models/about_app_model.dart';
 
-class AboutApp extends StatelessWidget {
+class AboutApp extends StatefulWidget {
   const AboutApp({super.key});
+
+  @override
+  State<AboutApp> createState() => _AboutAppState();
+}
+
+class _AboutAppState extends State<AboutApp> {
+  late Future<List<dynamic>?> aboutAppList;
+  AboutAppModel aboutAppModel = AboutAppModel();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      aboutAppList = aboutAppModel.getAboutApp();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    aboutAppList = aboutAppModel.getAboutApp();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,112 +35,48 @@ class AboutApp extends StatelessWidget {
         backgroundColor: Colors.red,
         elevation: 0,
       ),
-      body: ListView(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const Text(
-                  'Penggunaan Aplikasi',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Image.asset(
-                  'assets/images/about_ispa.png',
-                  width: 100,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Tentang Aplikasi : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Aplikasi ini digunakan untuk mendeteksi ISPA menggunakan metode naive bayes. Aplikasi ini berbasis android.",
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Halaman Login : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Halaman login digunakan untuk admin memasukkan data latih dan data uji. Admin dapat login menggunakan : \nemail : admin@admin.com\npassword : password',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Halaman Deteksi ISPA : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Halaman ini digunakan untuk mendeteksi ISPA dari hasil kuesioner yang telah diisikan sebelumnya. Hasilnya akan diketahui penyakit ISPA yang kemungkinan diderita oleh pasien.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Halaman Data Training : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Halaman data training adalah halaman yang digunakan untuk memberikan pengetahuan kepada algoritma naive bayes, agar dapat mempelajari perilaku penyakit ISPA.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Halaman Data Uji : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Halaman data uji adalah halaman yang digunakan untuk menentukan akurasi dari metode naive bayes dan pemrosesan data.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      body: SizedBox(
+        child: FutureBuilder<List<dynamic>?>(
+            future: aboutAppList,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child:
+                        CircularProgressIndicator()); // Container that you just created
+              } else {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      padding: const EdgeInsets.all(20),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index]['title'],
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index]['description'],
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        );
+                      });
+                } else {
+                  return const Center(child: Text('Tidak ditemukan data'));
+                }
+              }
+            }),
       ),
     );
   }

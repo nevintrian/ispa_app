@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:ispa_app/constants/api_url.dart';
 
-class TestModel {
+class DashboardModel {
   String url = "/dashboard";
 
   Future<dynamic> getDashboard() async {

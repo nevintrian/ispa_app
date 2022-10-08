@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/models/dashboard_model.dart';
 import 'package:ispa_app/models/session_model.dart';
 import 'package:ispa_app/pages/admin/diseases/disease_view.dart';
 import 'package:ispa_app/pages/admin/patients/patient_view.dart';
@@ -12,8 +13,40 @@ import 'package:ispa_app/pages/admin/about_apps/about_app_view.dart'
 import 'package:ispa_app/pages/home/home.dart' as home_user;
 import 'package:ispa_app/pages/home/test.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  String totalPatient = '0';
+  String totalTest = '0';
+  String accuracy = '0';
+
+  late Future<dynamic> dashboardList;
+  DashboardModel dashboardModel = DashboardModel();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      dashboardList = dashboardModel.getDashboard();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dashboardList = dashboardModel.getDashboard().then((value) => {
+          setState(() {
+            totalPatient = value['data']['total_patient'].toString();
+            totalTest = value['data']['total_test'].toString();
+            accuracy = value['data']['accuracy'].toString();
+          })
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +78,11 @@ class Home extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      const ListTile(
-                        title: Center(
+                      ListTile(
+                        title: const Center(
                             child: Text('Aplikasi Deteksi Penyakit ISPA')),
-                        subtitle:
-                            Center(child: Text('Akurasi Deteksi ISPA = 88%')),
+                        subtitle: Center(
+                            child: Text("Akurasi Deteksi ISPA = $accuracy")),
                       ),
                       const Divider(color: Colors.grey),
                       Container(
@@ -76,14 +109,14 @@ class Home extends StatelessWidget {
                                             child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
-                                          children: const [
+                                          children: [
                                             Text(
-                                              '15',
-                                              style: TextStyle(
+                                              totalPatient,
+                                              style: const TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            Text('Total Data Training')
+                                            const Text('Data Pasien')
                                           ],
                                         )),
                                       )),
@@ -110,14 +143,14 @@ class Home extends StatelessWidget {
                                             child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
-                                          children: const [
+                                          children: [
                                             Text(
-                                              '15',
-                                              style: TextStyle(
+                                              totalTest,
+                                              style: const TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            Text('Total Data Uji')
+                                            const Text('Data Pengujian')
                                           ],
                                         )),
                                       )),

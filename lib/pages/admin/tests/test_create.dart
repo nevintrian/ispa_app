@@ -14,6 +14,9 @@ class TestCreateState extends State<TestCreate>
   late String jenisKelaminValue;
   late String jenisPenyakitValue;
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+
   var jenisKelaminData = [
     'Laki laki',
     'Perempuan',
@@ -75,25 +78,37 @@ class TestCreateState extends State<TestCreate>
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: TextField(
-                          decoration: InputDecoration(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.account_circle),
                               border: OutlineInputBorder(),
                               labelText: 'Nama',
                               hintText: 'Masukkan Nama'),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Data belum diisi';
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 20),
-                        child: TextField(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                        child: TextFormField(
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.account_circle),
                               border: OutlineInputBorder(),
                               labelText: 'Umur',
                               hintText: 'Masukkan Umur'),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Data belum diisi';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -116,6 +131,12 @@ class TestCreateState extends State<TestCreate>
                               jenisKelaminValue = newValue!;
                             });
                           },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Data belum diisi';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -137,6 +158,12 @@ class TestCreateState extends State<TestCreate>
                             setState(() {
                               jenisPenyakitValue = newValue!;
                             });
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Data belum diisi';
+                            }
+                            return null;
                           },
                         ),
                       ),

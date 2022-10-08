@@ -16,25 +16,28 @@ class DiseaseModel {
   }
 
   Future<dynamic> addDisease(
-    String name,
-  ) async {
+      String name, String definition, String cause, String therapy) async {
     var result = await http.post(
       Uri.parse(ApiUrl.url + url),
       body: {
         'name': name,
+        'definition': definition,
+        'cause': cause,
+        'therapy': therapy,
       },
     );
     return json.decode(result.body);
   }
 
-  Future<dynamic> updateDisease(
-    int id,
-    String name,
-  ) async {
+  Future<dynamic> updateDisease(int id, String name, String definition,
+      String cause, String therapy) async {
     var result = await http.put(
       Uri.parse("${ApiUrl.url}$url/$id"),
       body: {
         'name': name,
+        'definiton': definition,
+        'cause': cause,
+        'therapy': therapy
       },
     );
     return json.decode(result.body);

@@ -17,6 +17,9 @@ class DiseaseEditState extends State<DiseaseEdit> {
   bool _saving = false;
   var formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
+  TextEditingController definitionController = TextEditingController();
+  TextEditingController causeController = TextEditingController();
+  TextEditingController therapyController = TextEditingController();
   DiseaseModel diseaseModel = DiseaseModel();
 
   @override
@@ -118,6 +121,60 @@ class DiseaseEditState extends State<DiseaseEdit> {
                             },
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            controller: definitionController,
+                            maxLines: 8,
+                            decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.data_saver_on_outlined),
+                                border: OutlineInputBorder(),
+                                labelText: 'Definisi Penyakit',
+                                hintText: 'Masukkan Definisi Penyakit'),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Data belum diisi';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            controller: causeController,
+                            maxLines: 8,
+                            decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.data_saver_on_outlined),
+                                border: OutlineInputBorder(),
+                                labelText: 'Penyebab Penyakit',
+                                hintText: 'Masukkan Penyebab Penyakit'),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Data belum diisi';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            controller: therapyController,
+                            maxLines: 8,
+                            decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.data_saver_on_outlined),
+                                border: OutlineInputBorder(),
+                                labelText: 'Pengobatan Penyakit',
+                                hintText: 'Masukkan Pengobatan Penyakit'),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Data belum diisi';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -136,7 +193,11 @@ class DiseaseEditState extends State<DiseaseEdit> {
 
                                 diseaseModel
                                     .updateDisease(
-                                        widget.id, nameController.text)
+                                        widget.id,
+                                        nameController.text,
+                                        definitionController.text,
+                                        causeController.text,
+                                        therapyController.text)
                                     .then((value) {
                                   if (value['status'] == 200) {
                                     Fluttertoast.showToast(

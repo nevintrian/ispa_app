@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/models/about_disease_model.dart';
 
-class AboutDisease extends StatelessWidget {
+class AboutDisease extends StatefulWidget {
   const AboutDisease({super.key});
+
+  @override
+  State<AboutDisease> createState() => _AboutDiseaseState();
+}
+
+class _AboutDiseaseState extends State<AboutDisease> {
+  late Future<List<dynamic>?> aboutDiseaseList;
+  AboutDiseaseModel aboutDiseaseModel = AboutDiseaseModel();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      aboutDiseaseList = aboutDiseaseModel.getAboutDisease();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    aboutDiseaseList = aboutDiseaseModel.getAboutDisease();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,78 +35,48 @@ class AboutDisease extends StatelessWidget {
         backgroundColor: Colors.red,
         elevation: 0,
       ),
-      body: ListView(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const Text(
-                  'Penyakit ISPA',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Image.asset(
-                  'assets/images/about_ispa.png',
-                  width: 100,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Definisi : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Infeksi Saluran Pernapasan Akut (ISPA) atau ARI (Acute Respiratory Infection) dalam bahasa Inggris adalah penyakit yang diakibatkan adanya infeksi pada sistem pernapasan atas dan bawah.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Tanda & Gejala : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Yang termasuk gejala dari ISPA adalah badan pegal pegal (myalgia), beringus (rhinorrhea), batuk, sakit kepala, sakit pada tengorokan. Penyebab terjadinya ISPA adalah virus, bakteri dan jamur. Kebanyakan adalah virus. Diagnosis yang termasuk dalam keadaan ini adalah, rhinitis, sinusitis, faringitis, tosilitis dan laryngitis.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Terapi : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Terapi yg diberikan pada penyakit ini biasanya pemberian antibiotik walaupun kebanyakan ISPA disebabkan oleh virus yang dapat sembuh dengan sendirinya tanpa pemberian obat obatan terapeutik, pemberian antibiotik dapat mempercepat penyembuhan penyakit ini dibandingkan hanya pemberian obat obatan symptomatic, selain itu dengan pemberian antibiotik dapat mencegah terjadinya infeksi lanjutan dari bakterial, pemberian, pemilihan antibiotik pada penyakit ini harus diperhatikan dengan baik agar tidak terjadi resistensi kuman/baterial di kemudian hari. Namun pada penyakit ISPA yg sudah berlanjut dengan gejala dahak dan ingus yg sudah menjadi hijau, pemberian antibiotik mungkin diperlukan karena dengan gejala tersebut mungkin sudah ada bakteri yg terlibat.',
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      body: SizedBox(
+        child: FutureBuilder<List<dynamic>?>(
+            future: aboutDiseaseList,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child:
+                        CircularProgressIndicator()); // Container that you just created
+              } else {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      padding: const EdgeInsets.all(20),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index]['title'],
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index]['description'],
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        );
+                      });
+                } else {
+                  return const Center(child: Text('Tidak ditemukan data'));
+                }
+              }
+            }),
       ),
     );
   }
