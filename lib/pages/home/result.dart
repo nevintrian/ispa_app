@@ -1,7 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/models/disease_model.dart';
 
-class Result extends StatelessWidget {
-  const Result({super.key});
+class Result extends StatefulWidget {
+  final String name;
+  final String gender;
+  final String age;
+  final String resultFromDisease;
+  const Result(
+      {super.key,
+      required this.name,
+      required this.gender,
+      required this.age,
+      required this.resultFromDisease});
+
+  @override
+  State<Result> createState() => _ResultState();
+}
+
+class _ResultState extends State<Result> {
+  DiseaseModel diseaseModel = DiseaseModel();
+  String? name;
+  String? definition;
+  String? cause;
+  String? therapy;
+  @override
+  void initState() {
+    super.initState();
+    diseaseModel.getDiseaseById(widget.resultFromDisease).then((value) => {
+          setState(() {
+            name = value['name'];
+            definition = value['definition'];
+            cause = value['cause'];
+            therapy = value['therapy'];
+          })
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,42 +50,43 @@ class Result extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             child: Column(
-              children: const [
+              children: [
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Nama : Nevin Trian',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    "Nama : ${widget.name}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Umur : 13',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    "Umur : ${widget.age}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Jenis Kelamin : Laki laki',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    "Jenis Kelamin : ${widget.gender}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Hasil Deteksi ISPA : Pneumonia',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    "Hasil Deteksi ISPA : $name",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
+                const SizedBox(
+                  height: 40,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Definisi : ",
@@ -62,14 +96,14 @@ class Result extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Yang termasuk gejala dari ISPA adalah badan pegal pegal (myalgia), beringus (rhinorrhea), batuk, sakit kepala, sakit pada tengorokan. Penyebab terjadinya ISPA adalah virus, bakteri dan jamur. Kebanyakan adalah virus. Diagnosis yang termasuk dalam keadaan ini adalah, rhinitis, sinusitis, faringitis, tosilitis dan laryngitis.',
+                    "$definition",
                     textAlign: TextAlign.justify,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Penyebab : ",
@@ -79,14 +113,14 @@ class Result extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Yang termasuk gejala dari ISPA adalah badan pegal pegal (myalgia), beringus (rhinorrhea), batuk, sakit kepala, sakit pada tengorokan. Penyebab terjadinya ISPA adalah virus, bakteri dan jamur. Kebanyakan adalah virus. Diagnosis yang termasuk dalam keadaan ini adalah, rhinitis, sinusitis, faringitis, tosilitis dan laryngitis.',
+                    "$cause",
                     textAlign: TextAlign.justify,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Pengobatan : ",
@@ -96,7 +130,7 @@ class Result extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Yang termasuk gejala dari ISPA adalah badan pegal pegal (myalgia), beringus (rhinorrhea), batuk, sakit kepala, sakit pada tengorokan. Penyebab terjadinya ISPA adalah virus, bakteri dan jamur. Kebanyakan adalah virus. Diagnosis yang termasuk dalam keadaan ini adalah, rhinitis, sinusitis, faringitis, tosilitis dan laryngitis.',
+                    "$therapy",
                     textAlign: TextAlign.justify,
                   ),
                 ),

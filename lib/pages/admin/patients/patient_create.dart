@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ispa_app/models/disease_model.dart';
 import 'package:ispa_app/models/patient_model.dart';
-import 'package:ispa_app/pages/admin/patients/patient_view.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class PatientCreate extends StatefulWidget {
@@ -14,8 +14,8 @@ class PatientCreate extends StatefulWidget {
 class PatientCreateState extends State<PatientCreate>
     with SingleTickerProviderStateMixin {
   int x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0;
-  late String jenisKelaminValue;
-  late int jenisPenyakitValue;
+  late String genderValue;
+  late int labelFromDiseaseValue;
 
   bool _saving = false;
   var formKey = GlobalKey<FormState>();
@@ -26,9 +26,9 @@ class PatientCreateState extends State<PatientCreate>
 
   late Future<dynamic> diseaseList;
   DiseaseModel diseaseModel = DiseaseModel();
-  var jenisPenyakitData = [];
+  var labelFromDiseaseData = [];
 
-  var jenisKelaminData = [
+  var genderData = [
     'Laki laki',
     'Perempuan',
   ];
@@ -56,8 +56,9 @@ class PatientCreateState extends State<PatientCreate>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
-    diseaseList =
-        diseaseModel.getDisease().then((value) => {jenisPenyakitData = value!});
+    diseaseList = diseaseModel
+        .getDisease()
+        .then((value) => {labelFromDiseaseData = value!});
   }
 
   @override
@@ -133,7 +134,7 @@ class PatientCreateState extends State<PatientCreate>
                                   labelText: 'Jenis Kelamin',
                                   hintText: 'Pilih Jenis Kelamin'),
                               icon: const Icon(Icons.keyboard_arrow_down),
-                              items: jenisKelaminData.map((String items) {
+                              items: genderData.map((String items) {
                                 return DropdownMenuItem(
                                   value: items,
                                   child: Text(items),
@@ -141,7 +142,7 @@ class PatientCreateState extends State<PatientCreate>
                               }).toList(),
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  jenisKelaminValue = newValue!;
+                                  genderValue = newValue!;
                                 });
                               },
                               validator: (value) {
@@ -161,7 +162,7 @@ class PatientCreateState extends State<PatientCreate>
                                   labelText: 'Jenis Penyakit',
                                   hintText: 'Pilih Jenis Penyakit'),
                               icon: const Icon(Icons.keyboard_arrow_down),
-                              items: jenisPenyakitData.map((item) {
+                              items: labelFromDiseaseData.map((item) {
                                 return DropdownMenuItem(
                                   value: item['id'],
                                   child: Text(item['name']),
@@ -169,7 +170,7 @@ class PatientCreateState extends State<PatientCreate>
                               }).toList(),
                               onChanged: (newValue) {
                                 setState(() {
-                                  jenisPenyakitValue = newValue as int;
+                                  labelFromDiseaseValue = newValue as int;
                                 });
                               },
                               validator: (value) {
@@ -953,26 +954,32 @@ class PatientCreateState extends State<PatientCreate>
                           setState(() {
                             _saving = true;
                           });
-
-                          patientModel.addPatient(
-                              nameController.text,
-                              jenisKelaminValue,
-                              int.parse(ageController.text),
-                              x1,
-                              x2,
-                              x3,
-                              x4,
-                              x5,
-                              x6,
-                              x7,
-                              x8,
-                              x9,
-                              jenisPenyakitValue);
-                          Navigator.pop(context);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const PatientView()));
+                          patientModel
+                              .addPatient(
+                                  nameController.text,
+                                  genderValue,
+                                  ageController.text,
+                                  x1.toString(),
+                                  x2.toString(),
+                                  x3.toString(),
+                                  x4.toString(),
+                                  x5.toString(),
+                                  x6.toString(),
+                                  x7.toString(),
+                                  x8.toString(),
+                                  x9.toString(),
+                                  labelFromDiseaseValue.toString())
+                              .then((value) {
+                            if (value['status'] == 201) {
+                              Fluttertoast.showToast(
+                                  msg: value['message'],
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.grey,
+                                  timeInSecForIosWeb: 1);
+                              Navigator.pop(context, true);
+                            }
+                          });
                         },
                         child: const Text(
                           'Simpan',

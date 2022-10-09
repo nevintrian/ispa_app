@@ -38,13 +38,13 @@ class TestModel {
         'x1': x1,
         'x2': x2,
         'x3': x3,
-        'x4': x3,
-        'x5': x3,
-        'x6': x3,
-        'x7': x3,
-        'x8': x3,
-        'x9': x3,
-        'label_from_disease': labelFormDisease
+        'x4': x4,
+        'x5': x5,
+        'x6': x6,
+        'x7': x7,
+        'x8': x8,
+        'x9': x9,
+        'label_from_disease_id': labelFormDisease
       },
     );
     return json.decode(result.body);

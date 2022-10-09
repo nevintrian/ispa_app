@@ -67,6 +67,11 @@ class _DiseaseViewState extends State<DiseaseView> {
                                     builder: (context) => DiseaseEdit(
                                           id: snapshot.data[index]['id'],
                                           name: snapshot.data[index]['name'],
+                                          definition: snapshot.data[index]
+                                              ['definition'],
+                                          cause: snapshot.data[index]['cause'],
+                                          therapy: snapshot.data[index]
+                                              ['therapy'],
                                         )),
                               ).then((value) {
                                 if (value == true) {

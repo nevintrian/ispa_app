@@ -6,7 +6,16 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 class DiseaseEdit extends StatefulWidget {
   final int id;
   final String name;
-  const DiseaseEdit({Key? key, required this.id, required this.name})
+  final String definition;
+  final String cause;
+  final String therapy;
+  const DiseaseEdit(
+      {Key? key,
+      required this.id,
+      required this.name,
+      required this.definition,
+      required this.cause,
+      required this.therapy})
       : super(key: key);
 
   @override
@@ -26,6 +35,9 @@ class DiseaseEditState extends State<DiseaseEdit> {
   void initState() {
     super.initState();
     nameController.text = widget.name;
+    definitionController.text = widget.definition;
+    causeController.text = widget.cause;
+    therapyController.text = widget.therapy;
   }
 
   Future<void> hapusData() async {

@@ -10,7 +10,7 @@ class DiseaseModel {
     return json.decode(result.body)['data'];
   }
 
-  Future<List<dynamic>> getDiseaseById(String id) async {
+  Future<dynamic> getDiseaseById(String id) async {
     var result = await http.get(Uri.parse("${ApiUrl.url}$url/$id"));
     return json.decode(result.body)['data'];
   }

@@ -18,17 +18,17 @@ class PatientModel {
   Future<dynamic> addPatient(
       String name,
       String gender,
-      int age,
-      int x1,
-      int x2,
-      int x3,
-      int x4,
-      int x5,
-      int x6,
-      int x7,
-      int x8,
-      int x9,
-      int labelFormDisease) async {
+      String age,
+      String x1,
+      String x2,
+      String x3,
+      String x4,
+      String x5,
+      String x6,
+      String x7,
+      String x8,
+      String x9,
+      String labelFormDisease) async {
     var result = await http.post(
       Uri.parse(ApiUrl.url + url),
       body: {
@@ -38,13 +38,13 @@ class PatientModel {
         'x1': x1,
         'x2': x2,
         'x3': x3,
-        'x4': x3,
-        'x5': x3,
-        'x6': x3,
-        'x7': x3,
-        'x8': x3,
-        'x9': x3,
-        'label_from_disease': labelFormDisease
+        'x4': x4,
+        'x5': x5,
+        'x6': x6,
+        'x7': x7,
+        'x8': x8,
+        'x9': x9,
+        'label_from_disease_id': labelFormDisease
       },
     );
     return json.decode(result.body);
@@ -54,17 +54,17 @@ class PatientModel {
       int id,
       String name,
       String gender,
-      int age,
-      int x1,
-      int x2,
-      int x3,
-      int x4,
-      int x5,
-      int x6,
-      int x7,
-      int x8,
-      int x9,
-      int labelFormDisease) async {
+      String age,
+      String x1,
+      String x2,
+      String x3,
+      String x4,
+      String x5,
+      String x6,
+      String x7,
+      String x8,
+      String x9,
+      String labelFormDisease) async {
     var result = await http.put(
       Uri.parse("${ApiUrl.url}$url/$id"),
       body: {
@@ -74,13 +74,13 @@ class PatientModel {
         'x1': x1,
         'x2': x2,
         'x3': x3,
-        'x4': x3,
-        'x5': x3,
-        'x6': x3,
-        'x7': x3,
-        'x8': x3,
-        'x9': x3,
-        'label_from_disease': labelFormDisease
+        'x4': x4,
+        'x5': x5,
+        'x6': x6,
+        'x7': x7,
+        'x8': x8,
+        'x9': x9,
+        'label_from_disease_id': labelFormDisease
       },
     );
     return json.decode(result.body);
