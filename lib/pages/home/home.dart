@@ -31,7 +31,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    dashboardList = dashboardModel.getDashboard();
+    dashboardList = dashboardModel.getDashboard().then((value) => {
+          setState(() {
+            totalPatient = value['data']['total_patient'].toString();
+            totalTest = value['data']['total_test'].toString();
+            accuracy = value['data']['accuracy'].toString();
+          })
+        });
   }
 
   Future<void> _pullRefresh() async {
@@ -55,183 +61,186 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.red,
         elevation: 0,
       ),
-      body: ListView(
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 150,
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+      body: RefreshIndicator(
+        onRefresh: _pullRefresh,
+        child: ListView(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: 150,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(20),
-                child: Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        title: const Center(
-                            child: Text('Aplikasi Deteksi Penyakit ISPA')),
-                        subtitle: Center(
-                            child: Text('Akurasi Deteksi ISPA = $accuracy')),
-                      ),
-                    ],
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          title: const Center(
+                              child: Text('Aplikasi Deteksi Penyakit ISPA')),
+                          subtitle: Center(
+                              child: Text('Akurasi Deteksi ISPA = $accuracy')),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
-          Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Test()),
-                            ).then((value) => {_pullRefresh()});
-                          },
-                          child: Card(
-                            elevation: 4, // Change this
-                            shadowColor: Colors.black12, // Change this
-                            child: Center(
-                                child: SizedBox(
-                              height: 150,
+                )
+              ],
+            ),
+            Container(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Test()),
+                              ).then((value) => {_pullRefresh()});
+                            },
+                            child: Card(
+                              elevation: 4, // Change this
+                              shadowColor: Colors.black12, // Change this
                               child: Center(
-                                  child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/ispa.png',
-                                    height: 75,
-                                  ),
-                                  const Text('Deteksi ISPA')
-                                ],
+                                  child: SizedBox(
+                                height: 150,
+                                child: Center(
+                                    child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/ispa.png',
+                                      height: 75,
+                                    ),
+                                    const Text('Deteksi ISPA')
+                                  ],
+                                )),
                               )),
-                            )),
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Login()),
-                            ).then((value) => {_pullRefresh()});
-                          },
-                          child: Card(
-                            elevation: 4, // Change this
-                            shadowColor: Colors.black12, // Change this
-                            child: Center(
-                                child: SizedBox(
-                              height: 150,
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()),
+                              ).then((value) => {_pullRefresh()});
+                            },
+                            child: Card(
+                              elevation: 4, // Change this
+                              shadowColor: Colors.black12, // Change this
                               child: Center(
-                                  child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/login.png',
-                                    height: 75,
-                                  ),
-                                  const Text('Login Admin')
-                                ],
+                                  child: SizedBox(
+                                height: 150,
+                                child: Center(
+                                    child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/login.png',
+                                      height: 75,
+                                    ),
+                                    const Text('Login Admin')
+                                  ],
+                                )),
                               )),
-                            )),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              )),
-          Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AboutDisease()),
-                            ).then((value) => {_pullRefresh()});
-                          },
-                          child: Card(
-                            elevation: 4, // Change this
-                            shadowColor: Colors.black12, // Change this
-                            child: Center(
-                                child: SizedBox(
-                              height: 150,
+                      ],
+                    )
+                  ],
+                )),
+            Container(
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AboutDisease()),
+                              ).then((value) => {_pullRefresh()});
+                            },
+                            child: Card(
+                              elevation: 4, // Change this
+                              shadowColor: Colors.black12, // Change this
                               child: Center(
-                                  child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/about_ispa.png',
-                                    height: 75,
-                                  ),
-                                  const Text('Tentang ISPA')
-                                ],
+                                  child: SizedBox(
+                                height: 150,
+                                child: Center(
+                                    child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/about_ispa.png',
+                                      height: 75,
+                                    ),
+                                    const Text('Tentang ISPA')
+                                  ],
+                                )),
                               )),
-                            )),
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AboutApp()),
-                            ).then((value) => {_pullRefresh()});
-                          },
-                          child: Card(
-                            elevation: 4, // Change this
-                            shadowColor: Colors.black12, // Change this
-                            child: Center(
-                                child: SizedBox(
-                              height: 150,
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AboutApp()),
+                              ).then((value) => {_pullRefresh()});
+                            },
+                            child: Card(
+                              elevation: 4, // Change this
+                              shadowColor: Colors.black12, // Change this
                               child: Center(
-                                  child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/about_app.png',
-                                    height: 75,
-                                  ),
-                                  const Text('Tentang Aplikasi')
-                                ],
+                                  child: SizedBox(
+                                height: 150,
+                                child: Center(
+                                    child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/about_app.png',
+                                      height: 75,
+                                    ),
+                                    const Text('Tentang Aplikasi')
+                                  ],
+                                )),
                               )),
-                            )),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              ))
-        ],
+                      ],
+                    )
+                  ],
+                ))
+          ],
+        ),
       ),
     );
   }

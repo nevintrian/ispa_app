@@ -1072,7 +1072,8 @@ class PatientEditState extends State<PatientEdit>
                               _saving = true;
                             });
                             patientModel
-                                .addPatient(
+                                .updatePatient(
+                                    widget.id,
                                     nameController.text,
                                     genderValue,
                                     ageController.text,

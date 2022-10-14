@@ -4,21 +4,19 @@ class Result extends StatefulWidget {
   final String name;
   final String gender;
   final String age;
-  final String resultFromDisease;
-  final String diseaseName;
-  final String diseaseDefinition;
-  final String diseaseCause;
-  final String diseaseTherapy;
+  final String diseaseResultName;
+  final String diseaseResultDefinition;
+  final String diseaseResultCause;
+  final String diseaseResultTherapy;
   const Result(
       {super.key,
       required this.name,
       required this.gender,
       required this.age,
-      required this.resultFromDisease,
-      required this.diseaseName,
-      required this.diseaseDefinition,
-      required this.diseaseCause,
-      required this.diseaseTherapy});
+      required this.diseaseResultName,
+      required this.diseaseResultDefinition,
+      required this.diseaseResultCause,
+      required this.diseaseResultTherapy});
 
   @override
   State<Result> createState() => _ResultState();
@@ -67,7 +65,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Hasil Deteksi ISPA : ${widget.diseaseName}",
+                    "Hasil Deteksi ISPA : ${widget.diseaseResultName}",
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold),
                   ),
@@ -85,7 +83,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.diseaseDefinition,
+                    widget.diseaseResultDefinition,
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -102,7 +100,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.diseaseCause,
+                    widget.diseaseResultCause,
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -119,7 +117,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.diseaseTherapy,
+                    widget.diseaseResultTherapy,
                     textAlign: TextAlign.justify,
                   ),
                 ),

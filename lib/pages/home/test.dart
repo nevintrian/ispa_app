@@ -945,15 +945,13 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
                                           name: value['data']['name'],
                                           gender: value['data']['gender'],
                                           age: value['data']['age'],
-                                          resultFromDisease: value['data']
-                                              ['result_from_disease_id'],
-                                          diseaseName: value['data']
+                                          diseaseResultName: value['data']
                                               ['disease_result']['name'],
-                                          diseaseDefinition: value['data']
+                                          diseaseResultDefinition: value['data']
                                               ['disease_result']['definition'],
-                                          diseaseCause: value['data']
+                                          diseaseResultCause: value['data']
                                               ['disease_result']['cause'],
-                                          diseaseTherapy: value['data']
+                                          diseaseResultTherapy: value['data']
                                               ['disease_result']['therapy'],
                                         )),
                               );
