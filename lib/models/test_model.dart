@@ -50,6 +50,42 @@ class TestModel {
     return json.decode(result.body);
   }
 
+  Future<dynamic> updateTest(
+      int id,
+      String name,
+      String gender,
+      String age,
+      String x1,
+      String x2,
+      String x3,
+      String x4,
+      String x5,
+      String x6,
+      String x7,
+      String x8,
+      String x9,
+      String labelFormDisease) async {
+    var result = await http.put(
+      Uri.parse("${ApiUrl.url}$url/$id"),
+      body: {
+        'name': name,
+        'gender': gender,
+        'age': age,
+        'x1': x1,
+        'x2': x2,
+        'x3': x3,
+        'x4': x4,
+        'x5': x5,
+        'x6': x6,
+        'x7': x7,
+        'x8': x8,
+        'x9': x9,
+        'label_from_disease_id': labelFormDisease
+      },
+    );
+    return json.decode(result.body);
+  }
+
   Future<dynamic> deleteTest(int id) async {
     var result = await http.delete(Uri.parse("${ApiUrl.url}$url/$id"));
     return json.decode(result.body);

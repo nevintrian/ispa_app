@@ -79,10 +79,13 @@ class _TestViewState extends State<TestView> {
                                           x7: snapshot.data[index]['x7'],
                                           x8: snapshot.data[index]['x8'],
                                           x9: snapshot.data[index]['x9'],
-                                          diseaseLabel: snapshot.data[index]
-                                              ['disease_label']['name'],
+                                          labelFromDisease: snapshot.data[index]
+                                              ['label_from_disease_id'],
                                           diseaseResult: snapshot.data[index]
                                               ['disease_result']['name'],
+                                          diseaseLabel: snapshot.data[index]
+                                              ['disease_label']['name'],
+                                          isCorrect: snapshot.data[index]['is_correct'],
                                         )),
                               ).then((value) {
                                 if (value == true) {

@@ -143,7 +143,7 @@ class PatientEditState extends State<PatientEdit>
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Hapus Data Tentang ISPA'),
+                        title: const Text('Hapus Data Pasien'),
                         content: SingleChildScrollView(
                           child: ListBody(
                             children: const <Widget>[
