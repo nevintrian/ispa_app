@@ -116,8 +116,7 @@ class PatientEditState extends State<PatientEdit>
             gravity: ToastGravity.BOTTOM,
             backgroundColor: Colors.grey,
             timeInSecForIosWeb: 1);
-        int count = 0;
-        Navigator.of(context).popUntil((_) => count++ >= 1);
+        Navigator.pop(context, true);
       }
     });
   }

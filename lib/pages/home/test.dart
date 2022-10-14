@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ispa_app/models/disease_model.dart';
-import 'package:ispa_app/models/test_model.dart';
+import 'package:ispa_app/models/test_home_model.dart';
 import 'package:ispa_app/pages/home/result.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -15,18 +15,16 @@ class Test extends StatefulWidget {
 class TestState extends State<Test> with SingleTickerProviderStateMixin {
   int x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0;
   late String genderValue;
-  late int labelFromDiseaseValue;
 
   bool _saving = false;
   var formKey = GlobalKey<FormState>();
-  TestModel testModel = TestModel();
+  TestHomeModel testHomeModel = TestHomeModel();
 
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
 
   late Future<dynamic> diseaseList;
   DiseaseModel diseaseModel = DiseaseModel();
-  var labelFromDiseaseData = [];
 
   var genderData = [
     'Laki laki',
@@ -50,15 +48,6 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
     setState(() {
       _tabController.index = 1;
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: myTabs.length);
-    diseaseList = diseaseModel
-        .getDisease()
-        .then((value) => {labelFromDiseaseData = value!});
   }
 
   @override
@@ -147,34 +136,6 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Data belum diisi';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 10),
-                            child: DropdownButtonFormField(
-                              decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.account_circle),
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Jenis Penyakit',
-                                  hintText: 'Pilih Jenis Penyakit'),
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: labelFromDiseaseData.map((item) {
-                                return DropdownMenuItem(
-                                  value: item['id'],
-                                  child: Text(item['name']),
-                                );
-                              }).toList(),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  labelFromDiseaseValue = newValue as int;
-                                });
-                              },
-                              validator: (value) {
-                                if (value == null) {
                                   return 'Data belum diisi';
                                 }
                                 return null;
@@ -954,21 +915,21 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
                           setState(() {
                             _saving = true;
                           });
-                          testModel
+                          testHomeModel
                               .addTest(
-                                  nameController.text,
-                                  genderValue,
-                                  ageController.text,
-                                  x1.toString(),
-                                  x2.toString(),
-                                  x3.toString(),
-                                  x4.toString(),
-                                  x5.toString(),
-                                  x6.toString(),
-                                  x7.toString(),
-                                  x8.toString(),
-                                  x9.toString(),
-                                  labelFromDiseaseValue.toString())
+                            nameController.text,
+                            genderValue,
+                            ageController.text,
+                            x1.toString(),
+                            x2.toString(),
+                            x3.toString(),
+                            x4.toString(),
+                            x5.toString(),
+                            x6.toString(),
+                            x7.toString(),
+                            x8.toString(),
+                            x9.toString(),
+                          )
                               .then((value) {
                             if (value['status'] == 201) {
                               Fluttertoast.showToast(
@@ -981,11 +942,20 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Result(
-                                        name: value['data']['name'],
-                                        gender: value['data']['gender'],
-                                        age: value['data']['age'],
-                                        resultFromDisease: value['data']
-                                            ['result_from_disease_id'])),
+                                          name: value['data']['name'],
+                                          gender: value['data']['gender'],
+                                          age: value['data']['age'],
+                                          resultFromDisease: value['data']
+                                              ['result_from_disease_id'],
+                                          diseaseName: value['data']
+                                              ['disease_result']['name'],
+                                          diseaseDefinition: value['data']
+                                              ['disease_result']['definition'],
+                                          diseaseCause: value['data']
+                                              ['disease_result']['cause'],
+                                          diseaseTherapy: value['data']
+                                              ['disease_result']['therapy'],
+                                        )),
                               );
                             }
                           });

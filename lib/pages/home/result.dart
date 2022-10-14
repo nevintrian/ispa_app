@@ -1,41 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/models/disease_model.dart';
 
 class Result extends StatefulWidget {
   final String name;
   final String gender;
   final String age;
   final String resultFromDisease;
+  final String diseaseName;
+  final String diseaseDefinition;
+  final String diseaseCause;
+  final String diseaseTherapy;
   const Result(
       {super.key,
       required this.name,
       required this.gender,
       required this.age,
-      required this.resultFromDisease});
+      required this.resultFromDisease,
+      required this.diseaseName,
+      required this.diseaseDefinition,
+      required this.diseaseCause,
+      required this.diseaseTherapy});
 
   @override
   State<Result> createState() => _ResultState();
 }
 
 class _ResultState extends State<Result> {
-  DiseaseModel diseaseModel = DiseaseModel();
-  String? name;
-  String? definition;
-  String? cause;
-  String? therapy;
-  @override
-  void initState() {
-    super.initState();
-    diseaseModel.getDiseaseById(widget.resultFromDisease).then((value) => {
-          setState(() {
-            name = value['name'];
-            definition = value['definition'];
-            cause = value['cause'];
-            therapy = value['therapy'];
-          })
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +67,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Hasil Deteksi ISPA : $name",
+                    "Hasil Deteksi ISPA : ${widget.diseaseName}",
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold),
                   ),
@@ -96,7 +85,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "$definition",
+                    widget.diseaseDefinition,
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -113,7 +102,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "$cause",
+                    widget.diseaseCause,
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -130,7 +119,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "$therapy",
+                    widget.diseaseTherapy,
                     textAlign: TextAlign.justify,
                   ),
                 ),

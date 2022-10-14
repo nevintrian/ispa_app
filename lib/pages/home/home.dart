@@ -1,11 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:ispa_app/models/dashboard_model.dart';
 import 'package:ispa_app/pages/home/login.dart';
 import 'package:ispa_app/pages/home/about_disease.dart';
 import 'package:ispa_app/pages/home/about_app.dart';
 import 'package:ispa_app/pages/home/test.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  String totalPatient = '0';
+  String totalTest = '0';
+  String accuracy = '0';
+
+  late Future<dynamic> dashboardList;
+  DashboardModel dashboardModel = DashboardModel();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      dashboardList = dashboardModel.getDashboard();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dashboardList = dashboardModel.getDashboard().then((value) => {
+          setState(() {
+            totalPatient = value['data']['total_patient'].toString();
+            totalTest = value['data']['total_test'].toString();
+            accuracy = value['data']['accuracy'].toString();
+          })
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +68,12 @@ class Home extends StatelessWidget {
                 child: Card(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: const <Widget>[
+                    children: <Widget>[
                       ListTile(
-                        title: Center(
+                        title: const Center(
                             child: Text('Aplikasi Deteksi Penyakit ISPA')),
-                        subtitle:
-                            Center(child: Text('Akurasi Deteksi ISPA = 88%')),
+                        subtitle: Center(
+                            child: Text('Akurasi Deteksi ISPA = $accuracy')),
                       ),
                     ],
                   ),
