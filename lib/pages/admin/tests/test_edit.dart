@@ -1,8 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/pages/admin/tests/test_view.dart';
 
 class TestEdit extends StatefulWidget {
-  const TestEdit({Key? key}) : super(key: key);
+  final int id;
+  final String name;
+  final String gender;
+  final String age;
+  final String x1;
+  final String x2;
+  final String x3;
+  final String x4;
+  final String x5;
+  final String x6;
+  final String x7;
+  final String x8;
+  final String x9;
+  final String diseaseLabel;
+  final String diseaseResult;
+  const TestEdit(
+      {Key? key,
+      required this.id,
+      required this.name,
+      required this.gender,
+      required this.age,
+      required this.x1,
+      required this.x2,
+      required this.x3,
+      required this.x4,
+      required this.x5,
+      required this.x6,
+      required this.x7,
+      required this.x8,
+      required this.x9,
+      required this.diseaseLabel,
+      required this.diseaseResult})
+      : super(key: key);
 
   @override
   TestEditState createState() => TestEditState();
@@ -10,20 +41,13 @@ class TestEdit extends StatefulWidget {
 
 class TestEditState extends State<TestEdit>
     with SingleTickerProviderStateMixin {
-  int? x1, x2, x3, x4, x5, x6, x7, x8, x9;
-  late String jenisKelaminValue;
-  late String jenisPenyakitValue;
+  int x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0;
 
-  var jenisKelaminData = [
-    'Laki laki',
-    'Perempuan',
-  ];
-
-  var jenisPenyakitData = [
-    'Batuk Bukan Pneumonia',
-    'Pneumonia',
-    'Pneumonia Berat'
-  ];
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController diseaseLabelController = TextEditingController();
+  TextEditingController diseaseResultController = TextEditingController();
 
   late TabController _tabController;
 
@@ -48,60 +72,36 @@ class TestEditState extends State<TestEdit>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
+    nameController.text = widget.name;
+    ageController.text = widget.age;
+    genderController.text = widget.gender;
+    diseaseLabelController.text = widget.diseaseLabel;
+    diseaseResultController.text = widget.diseaseResult;
+    x1 = int.parse(widget.x1);
+    x2 = int.parse(widget.x2);
+    x3 = int.parse(widget.x3);
+    x4 = int.parse(widget.x4);
+    x5 = int.parse(widget.x5);
+    x6 = int.parse(widget.x6);
+    x7 = int.parse(widget.x7);
+    x8 = int.parse(widget.x8);
+    x9 = int.parse(widget.x9);
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Ubah Data Uji'),
-          centerTitle: true,
-          backgroundColor: Colors.red,
-          elevation: 0,
           bottom: TabBar(
             tabs: myTabs,
             controller: _tabController,
           ),
-          actions: [
-            InkWell(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Hapus Data Pengujian'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: const <Widget>[
-                              Text('Apa anda ingin menghapus data?'),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Ya'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text('Tidak'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    });
-              },
-              child: Container(
-                  padding: const EdgeInsets.all(15),
-                  child: const Icon(Icons.delete)),
-            )
-          ],
+          title: const Text('LIhat Data Pengujian'),
+          centerTitle: true,
+          backgroundColor: Colors.red,
+          elevation: 0,
         ),
         body: TabBarView(
           controller: _tabController,
@@ -112,21 +112,25 @@ class TestEditState extends State<TestEdit>
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: TextField(
-                          decoration: InputDecoration(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: nameController,
+                          decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.account_circle),
                               border: OutlineInputBorder(),
                               labelText: 'Nama',
                               hintText: 'Masukkan Nama'),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 20),
-                        child: TextField(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: TextFormField(
+                          readOnly: true,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          controller: ageController,
+                          decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.account_circle),
                               border: OutlineInputBorder(),
                               labelText: 'Umur',
@@ -134,67 +138,43 @@ class TestEditState extends State<TestEdit>
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: DropdownButtonFormField(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: genderController,
                           decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.account_circle),
                               border: OutlineInputBorder(),
                               labelText: 'Jenis Kelamin',
-                              hintText: 'Pilih Jenis Kelamin'),
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: jenisKelaminData.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              jenisKelaminValue = newValue!;
-                            });
-                          },
+                              hintText: 'Masukkan Jenis Kelamin'),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: DropdownButtonFormField(
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: diseaseLabelController,
                           decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.account_circle),
                               border: OutlineInputBorder(),
-                              labelText: 'Jenis Penyakit',
-                              hintText: 'Pilih Jenis Penyakit'),
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: jenisPenyakitData.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              jenisPenyakitValue = newValue!;
-                            });
-                          },
+                              labelText: 'Jenis penyakit',
+                              hintText: 'Masukkan Jenis Penyakit'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: diseaseResultController,
+                          decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.account_circle),
+                              border: OutlineInputBorder(),
+                              labelText: 'Hasil Penyakit',
+                              hintText: 'Masukkan Hasil Penyakit'),
                         ),
                       ),
                       const SizedBox(
                         height: 20,
-                      ),
-                      Container(
-                        height: 50,
-                        width: width,
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: TextButton(
-                          onPressed: () {
-                            changeMyTab();
-                          },
-                          child: const Text(
-                            'Lanjutkan',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
                       ),
                     ],
                   ),
@@ -215,77 +195,55 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x1 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x1,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x1,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x1 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x1 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x1,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x1,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x1 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 50),
                     const Align(
                       alignment: Alignment.centerLeft,
@@ -296,77 +254,55 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x2 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x2,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x2,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x2 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x2 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x2,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x2,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x2 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 50),
                     const Align(
                       alignment: Alignment.centerLeft,
@@ -377,77 +313,55 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x3 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x3,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x3,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x3 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x3 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x3,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x3,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x3 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 50),
                     const Align(
                       alignment: Alignment.centerLeft,
@@ -458,77 +372,55 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x4 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x4,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x4,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x4 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x4 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x4,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x4,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x4 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 50),
                     const Align(
                       alignment: Alignment.centerLeft,
@@ -539,77 +431,55 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x5 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x5,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x5,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x5 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x5 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x5,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x5,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x5 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 50),
                     const Align(
                       alignment: Alignment.centerLeft,
@@ -620,77 +490,55 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x6 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x6,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x6,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x6 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x6 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x6,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x6,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x6 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 50),
                     const Align(
                       alignment: Alignment.centerLeft,
@@ -701,77 +549,55 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x7 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x7,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x7,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x7 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x7 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x7,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x7,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x7 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 50),
                     const Align(
                       alignment: Alignment.centerLeft,
@@ -782,77 +608,55 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x8 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x8,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x8,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x8 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x8 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x8,
+                                onChanged: (value) {},
+                              )
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x8,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x8 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
+                        )),
                     const SizedBox(height: 50),
                     const Align(
                       alignment: Alignment.centerLeft,
@@ -863,98 +667,56 @@ class TestEditState extends State<TestEdit>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x9 = 1;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Ya"),
-                                Radio(
-                                  value: 1,
-                                  groupValue: x9,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x9 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
-                    const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          x9 = 0;
-                        });
-                      },
-                      child: Container(
-                          height: 60,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xff263238), width: 0.1),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, right: 20, left: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tidak"),
-                                Radio(
-                                  value: 0,
-                                  groupValue: x9,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      x9 = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
-                    const SizedBox(height: 50),
                     Container(
-                      height: 50,
-                      width: width,
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const TestView()));
-                        },
-                        child: const Text(
-                          'Ubah',
-                          style: TextStyle(color: Colors.white),
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
                         ),
-                      ),
-                    ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Ya"),
+                              Radio(
+                                value: 1,
+                                groupValue: x9,
+                                onChanged: (value) {},
+                              )
+                            ],
+                          ),
+                        )),
+                    const SizedBox(height: 10),
+                    Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                              color: const Color(0xff263238), width: 0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 20, left: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Tidak"),
+                              Radio(
+                                value: 0,
+                                groupValue: x9,
+                                onChanged: (value) {},
+                              )
+                            ],
+                          ),
+                        )),
+                    const SizedBox(height: 50),
                   ],
                 ),
               ),

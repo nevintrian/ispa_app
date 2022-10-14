@@ -48,6 +48,18 @@ class _HomeState extends State<Home> {
         });
   }
 
+  Future<void> _pullRefresh() async {
+    setState(() {
+      dashboardList = dashboardModel.getDashboard().then((value) => {
+            setState(() {
+              totalPatient = value['data']['total_patient'].toString();
+              totalTest = value['data']['total_test'].toString();
+              accuracy = value['data']['accuracy'].toString();
+            })
+          });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SessionModel sessionModel = SessionModel();
@@ -100,7 +112,7 @@ class _HomeState extends State<Home> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   const TestView()),
-                                        );
+                                        ).then((value) => {_pullRefresh()});
                                       },
                                       child: Center(
                                           child: SizedBox(
@@ -134,7 +146,7 @@ class _HomeState extends State<Home> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   const TestView()),
-                                        );
+                                        ).then((value) => {_pullRefresh()});
                                       },
                                       child: Center(
                                           child: SizedBox(
@@ -187,7 +199,7 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const Test()),
-                            );
+                            ).then((value) => {_pullRefresh()});
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -292,7 +304,7 @@ class _HomeState extends State<Home> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const home_about_disease.AboutDisease()),
-                            );
+                            ).then((value) => {_pullRefresh()});
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -324,7 +336,7 @@ class _HomeState extends State<Home> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const home_about_app.AboutApp()),
-                            );
+                            ).then((value) => {_pullRefresh()});
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -373,7 +385,7 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const PatientView()),
-                            );
+                            ).then((value) => {_pullRefresh()});
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -404,7 +416,7 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const TestView()),
-                            );
+                            ).then((value) => {_pullRefresh()});
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -445,7 +457,7 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const DiseaseView()),
-                            );
+                            ).then((value) => {_pullRefresh()});
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -478,7 +490,7 @@ class _HomeState extends State<Home> {
                                   builder: (context) =>
                                       const admin_about_disease
                                           .AboutDiseaseView()),
-                            );
+                            ).then((value) => {_pullRefresh()});
                           },
                           child: Card(
                             elevation: 4, // Change this
@@ -520,7 +532,7 @@ class _HomeState extends State<Home> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const admin_about_app.AboutAppView()),
-                            );
+                            ).then((value) => {_pullRefresh()});
                           },
                           child: Card(
                             elevation: 4, // Change this

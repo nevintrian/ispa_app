@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ispa_app/models/test_model.dart';
-import 'package:ispa_app/pages/admin/patients/patient_create.dart';
-import 'package:ispa_app/pages/admin/patients/patient_edit.dart';
+import 'package:ispa_app/pages/admin/tests/test_create.dart';
+import 'package:ispa_app/pages/admin/tests/test_edit.dart';
 
 class TestView extends StatefulWidget {
   const TestView({super.key});
@@ -64,22 +64,26 @@ class _TestViewState extends State<TestView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PatientEdit(
-                                        id: snapshot.data[index]['id'],
-                                        name: snapshot.data[index]['name'],
-                                        gender: snapshot.data[index]['gender'],
-                                        age: snapshot.data[index]['age'],
-                                        x1: snapshot.data[index]['x1'],
-                                        x2: snapshot.data[index]['x2'],
-                                        x3: snapshot.data[index]['x3'],
-                                        x4: snapshot.data[index]['x4'],
-                                        x5: snapshot.data[index]['x5'],
-                                        x6: snapshot.data[index]['x6'],
-                                        x7: snapshot.data[index]['x7'],
-                                        x8: snapshot.data[index]['x8'],
-                                        x9: snapshot.data[index]['x9'],
-                                        labelFromDisease: snapshot.data[index]
-                                            ['label_from_disease_id'])),
+                                    builder: (context) => TestEdit(
+                                          id: snapshot.data[index]['id'],
+                                          name: snapshot.data[index]['name'],
+                                          gender: snapshot.data[index]
+                                              ['gender'],
+                                          age: snapshot.data[index]['age'],
+                                          x1: snapshot.data[index]['x1'],
+                                          x2: snapshot.data[index]['x2'],
+                                          x3: snapshot.data[index]['x3'],
+                                          x4: snapshot.data[index]['x4'],
+                                          x5: snapshot.data[index]['x5'],
+                                          x6: snapshot.data[index]['x6'],
+                                          x7: snapshot.data[index]['x7'],
+                                          x8: snapshot.data[index]['x8'],
+                                          x9: snapshot.data[index]['x9'],
+                                          diseaseLabel: snapshot.data[index]
+                                              ['disease_label']['name'],
+                                          diseaseResult: snapshot.data[index]
+                                              ['disease_result']['name'],
+                                        )),
                               ).then((value) {
                                 if (value == true) {
                                   _pullRefresh();
@@ -104,7 +108,7 @@ class _TestViewState extends State<TestView> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const PatientCreate()),
+            MaterialPageRoute(builder: (context) => const TestCreate()),
           ).then((value) {
             if (value == true) {
               _pullRefresh();
