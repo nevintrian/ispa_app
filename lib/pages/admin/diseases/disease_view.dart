@@ -66,12 +66,17 @@ class _DiseaseViewState extends State<DiseaseView> {
                                 MaterialPageRoute(
                                     builder: (context) => DiseaseEdit(
                                           id: snapshot.data[index]['id'],
-                                          name: snapshot.data[index]['name'],
+                                          name: snapshot.data[index]['name'] ??
+                                              "",
                                           definition: snapshot.data[index]
-                                              ['definition'],
-                                          cause: snapshot.data[index]['cause'],
+                                                  ['definition'] ??
+                                              "",
+                                          cause: snapshot.data[index]
+                                                  ['cause'] ??
+                                              "",
                                           therapy: snapshot.data[index]
-                                              ['therapy'],
+                                                  ['therapy'] ??
+                                              "",
                                         )),
                               ).then((value) {
                                 if (value == true) {

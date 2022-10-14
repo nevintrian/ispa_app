@@ -35,7 +35,7 @@ class DiseaseModel {
       Uri.parse("${ApiUrl.url}$url/$id"),
       body: {
         'name': name,
-        'definiton': definition,
+        'definition': definition,
         'cause': cause,
         'therapy': therapy
       },

@@ -142,12 +142,6 @@ class DiseaseEditState extends State<DiseaseEdit> {
                                 border: OutlineInputBorder(),
                                 labelText: 'Definisi Penyakit',
                                 hintText: 'Masukkan Definisi Penyakit'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Data belum diisi';
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         Padding(
@@ -160,12 +154,6 @@ class DiseaseEditState extends State<DiseaseEdit> {
                                 border: OutlineInputBorder(),
                                 labelText: 'Penyebab Penyakit',
                                 hintText: 'Masukkan Penyebab Penyakit'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Data belum diisi';
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         Padding(
@@ -178,12 +166,6 @@ class DiseaseEditState extends State<DiseaseEdit> {
                                 border: OutlineInputBorder(),
                                 labelText: 'Pengobatan Penyakit',
                                 hintText: 'Masukkan Pengobatan Penyakit'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Data belum diisi';
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         const SizedBox(
