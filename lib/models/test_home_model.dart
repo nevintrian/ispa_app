@@ -8,7 +8,8 @@ class TestHomeModel {
   Future<dynamic> addTest(
       String name,
       String gender,
-      String age,
+      String ageYear,
+      String ageMonth,
       String x1,
       String x2,
       String x3,
@@ -23,7 +24,8 @@ class TestHomeModel {
       body: {
         'name': name,
         'gender': gender,
-        'age': age,
+        'age_year': ageYear,
+        'age_month': ageMonth,
         'x1': x1,
         'x2': x2,
         'x3': x3,

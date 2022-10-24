@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class Result extends StatefulWidget {
   final String name;
   final String gender;
-  final String age;
+  final String ageYear;
+  final String ageMonth;
   final String diseaseResultName;
   final String diseaseResultDefinition;
   final String diseaseResultCause;
@@ -12,7 +13,8 @@ class Result extends StatefulWidget {
       {super.key,
       required this.name,
       required this.gender,
-      required this.age,
+      required this.ageYear,
+      required this.ageMonth,
       required this.diseaseResultName,
       required this.diseaseResultDefinition,
       required this.diseaseResultCause,
@@ -49,7 +51,7 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Umur : ${widget.age}",
+                    "Umur : ${widget.ageYear} Tahun, ${widget.ageMonth} Bulan",
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold),
                   ),

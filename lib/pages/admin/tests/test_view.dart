@@ -69,7 +69,10 @@ class _TestViewState extends State<TestView> {
                                           name: snapshot.data[index]['name'],
                                           gender: snapshot.data[index]
                                               ['gender'],
-                                          age: snapshot.data[index]['age'],
+                                          ageYear: snapshot.data[index]
+                                              ['age_year'],
+                                          ageMonth: snapshot.data[index]
+                                              ['age_month'],
                                           x1: snapshot.data[index]['x1'],
                                           x2: snapshot.data[index]['x2'],
                                           x3: snapshot.data[index]['x3'],
@@ -85,7 +88,8 @@ class _TestViewState extends State<TestView> {
                                               ['disease_result']['name'],
                                           diseaseLabel: snapshot.data[index]
                                               ['disease_label']['name'],
-                                          isCorrect: snapshot.data[index]['is_correct'],
+                                          isCorrect: snapshot.data[index]
+                                              ['is_correct'],
                                         )),
                               ).then((value) {
                                 if (value == true) {
@@ -95,8 +99,10 @@ class _TestViewState extends State<TestView> {
                             },
                             title: Text(snapshot.data[index]['name']),
                             subtitle: Text(snapshot.data[index]['gender']),
-                            trailing:
-                                Text(snapshot.data[index]['age'] + ' Tahun'),
+                            trailing: Text(snapshot.data[index]['age_year'] +
+                                ' Tahun, ' +
+                                snapshot.data[index]['age_month'] +
+                                ' Bulan'),
                             leading: const Icon(Icons.account_circle),
                           ));
                         }),

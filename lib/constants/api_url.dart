@@ -1,3 +1,3 @@
 class ApiUrl {
-  static String url = "https://ispaapp.srirejeki.net/api";
+  static String url = "https://ispaapp.vindev.net/api";
 }
