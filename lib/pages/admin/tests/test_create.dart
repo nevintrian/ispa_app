@@ -120,7 +120,7 @@ class TestCreateState extends State<TestCreate>
                                     decoration: const InputDecoration(
                                         prefixIcon: Icon(Icons.account_circle),
                                         border: OutlineInputBorder(),
-                                        labelText: 'Tahun)',
+                                        labelText: 'Umur (Tahun)',
                                         hintText: '...',
                                         suffixText: 'Tahun'),
                                     validator: (value) {
@@ -142,7 +142,7 @@ class TestCreateState extends State<TestCreate>
                                     decoration: const InputDecoration(
                                         prefixIcon: Icon(Icons.account_circle),
                                         border: OutlineInputBorder(),
-                                        labelText: 'Bulan',
+                                        labelText: 'Umur (Bulan)',
                                         hintText: '...',
                                         suffixText: 'Bulan'),
                                     validator: (value) {
