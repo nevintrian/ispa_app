@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool _saving = false;
   var formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   LoginModel loginModel = LoginModel();
   SessionModel sessionModel = SessionModel();
@@ -44,17 +44,15 @@ class _LoginState extends State<Login> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFormField(
-                              controller: emailController,
+                              controller: usernameController,
                               decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.email),
+                                  prefixIcon: Icon(Icons.account_circle),
                                   border: OutlineInputBorder(),
-                                  labelText: 'Email',
-                                  hintText: 'Masukkan Email'),
+                                  labelText: 'Username',
+                                  hintText: 'Masukkan Username'),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Data belum diisi';
-                                } else if (!value.contains('@')) {
-                                  return "Format email tidak sesuai";
                                 }
                                 return null;
                               },
@@ -91,7 +89,7 @@ class _LoginState extends State<Login> {
                                     _saving = true;
                                   });
                                   loginModel
-                                      .login(emailController.text,
+                                      .login(usernameController.text,
                                           passwordController.text)
                                       .then((value) {
                                     if (value['status'] == 200) {

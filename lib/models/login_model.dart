@@ -6,13 +6,13 @@ class LoginModel {
   String url = "/login";
 
   Future<dynamic> login(
-    String email,
+    String username,
     String password,
   ) async {
     var result = await http.post(
       Uri.parse(ApiUrl.url + url),
       body: {
-        'email': email,
+        'username': username,
         'password': password,
       },
     );
