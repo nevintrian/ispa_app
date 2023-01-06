@@ -401,7 +401,7 @@ class TestCreateState extends State<TestCreate>
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text("Ya"),
+                                            const Text("Lebih dari 14 hari"),
                                             Radio(
                                               value: 1,
                                               groupValue: x2,
@@ -442,7 +442,7 @@ class TestCreateState extends State<TestCreate>
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text("Tidak"),
+                                            const Text("Kurang dari 14 hari"),
                                             Radio(
                                               value: 0,
                                               groupValue: x2,
