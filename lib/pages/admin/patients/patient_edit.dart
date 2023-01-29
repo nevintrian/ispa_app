@@ -62,7 +62,7 @@ class PatientEditState extends State<PatientEdit>
   var labelFromDiseaseData = [];
 
   var genderData = [
-    'Laki laki',
+    'Laki-laki',
     'Perempuan',
   ];
 

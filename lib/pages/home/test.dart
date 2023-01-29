@@ -25,7 +25,7 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
   TextEditingController ageMonthController = TextEditingController();
 
   var genderData = [
-    'Laki laki',
+    'Laki-laki',
     'Perempuan',
   ];
 

@@ -30,7 +30,7 @@ class TestCreateState extends State<TestCreate>
   var labelFromDiseaseData = [];
 
   var genderData = [
-    'Laki laki',
+    'Laki-laki',
     'Perempuan',
   ];
 

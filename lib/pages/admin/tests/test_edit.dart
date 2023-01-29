@@ -71,7 +71,7 @@ class TestEditState extends State<TestEdit>
   var labelFromDiseaseData = [];
 
   var genderData = [
-    'Laki laki',
+    'Laki-laki',
     'Perempuan',
   ];
 
