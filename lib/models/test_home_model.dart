@@ -6,10 +6,12 @@ class TestHomeModel {
   String url = "/test";
 
   Future<dynamic> addTest(
+      String nik,
       String name,
       String gender,
       String ageYear,
       String ageMonth,
+      String dateBirth,
       String x1,
       String x2,
       String x3,
@@ -18,14 +20,17 @@ class TestHomeModel {
       String x6,
       String x7,
       String x8,
-      String x9) async {
+      String x9,
+      String status) async {
     var result = await http.post(
       Uri.parse(ApiUrl.url + url),
       body: {
+        'nik': nik,
         'name': name,
         'gender': gender,
-        'age_year': ageYear,
-        'age_month': ageMonth,
+        // 'age_year': ageYear,
+        // 'age_month': ageMonth,
+        'date_birth': dateBirth,
         'x1': x1,
         'x2': x2,
         'x3': x3,
@@ -35,6 +40,7 @@ class TestHomeModel {
         'x7': x7,
         'x8': x8,
         'x9': x9,
+        'status': status
       },
     );
     return json.decode(result.body);

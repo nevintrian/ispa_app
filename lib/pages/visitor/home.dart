@@ -1,10 +1,13 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:ispa_app/models/dashboard_model.dart';
-import 'package:ispa_app/pages/home/login.dart';
+import 'package:ispa_app/models/session_model.dart';
+import 'package:ispa_app/pages/visitor/profile.dart';
+import 'package:ispa_app/pages/visitor/visitors/visitor_view.dart';
 import 'package:ispa_app/pages/home/about_disease.dart';
 import 'package:ispa_app/pages/home/about_app.dart';
-import 'package:ispa_app/pages/home/login_visitor.dart';
+import 'package:ispa_app/pages/visitor/test.dart';
+import 'package:ispa_app/pages/home/home.dart' as home_user;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -55,6 +58,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    SessionModel sessionModel = SessionModel();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Aplikasi ISPA'),
@@ -92,7 +96,8 @@ class _HomeState extends State<Home> {
                             title: const Center(
                                 child: Text('Aplikasi Deteksi Penyakit ISPA')),
                             subtitle: Center(
-                                child: Text('Akurasi Deteksi ISPA = $accuracy')),
+                                child:
+                                    Text('Akurasi Deteksi ISPA = $accuracy')),
                           ),
                         ],
                       ),
@@ -112,7 +117,7 @@ class _HomeState extends State<Home> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const LoginVisitor()),
+                                      builder: (context) => const Test()),
                                 ).then((value) => {_pullRefresh()});
                               },
                               child: Card(
@@ -127,10 +132,10 @@ class _HomeState extends State<Home> {
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       Image.asset(
-                                        'assets/images/group.png',
+                                        'assets/images/ispa.png',
                                         height: 75,
                                       ),
-                                      const Text('Login Pengunjung')
+                                      const Text('Deteksi ISPA')
                                     ],
                                   )),
                                 )),
@@ -143,7 +148,8 @@ class _HomeState extends State<Home> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const Login()),
+                                      builder: (context) =>
+                                          const VisitorView()),
                                 ).then((value) => {_pullRefresh()});
                               },
                               child: Card(
@@ -158,10 +164,10 @@ class _HomeState extends State<Home> {
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       Image.asset(
-                                        'assets/images/login.png',
+                                        'assets/images/visitor.png',
                                         height: 75,
                                       ),
-                                      const Text('Login Admin')
+                                      const Text('Riwayat Pengunjung')
                                     ],
                                   )),
                                 )),
@@ -173,7 +179,8 @@ class _HomeState extends State<Home> {
                     ],
                   )),
               Container(
-                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   child: Column(
                     children: [
                       Row(
@@ -184,7 +191,8 @@ class _HomeState extends State<Home> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const AboutDisease()),
+                                      builder: (context) =>
+                                          const AboutDisease()),
                                 ).then((value) => {_pullRefresh()});
                               },
                               child: Card(
@@ -234,6 +242,110 @@ class _HomeState extends State<Home> {
                                         height: 75,
                                       ),
                                       const Text('Tentang Aplikasi')
+                                    ],
+                                  )),
+                                )),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )),
+              Container(
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Profile()),
+                                ).then((value) => {_pullRefresh()});
+                              },
+                              child: Card(
+                                elevation: 4, // Change this
+                                shadowColor: Colors.black12, // Change this
+                                child: Center(
+                                    child: SizedBox(
+                                  height: 150,
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/user.png',
+                                        height: 75,
+                                      ),
+                                      const Text('Ubah Profil')
+                                    ],
+                                  )),
+                                )),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Logout Pengujung'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: const <Widget>[
+                                              Text('Apa anda ingin logout?'),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('Ya'),
+                                            onPressed: () {
+                                              sessionModel.removeSession();
+                                              Navigator.of(context)
+                                                  .pushAndRemoveUntil(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const home_user
+                                                                  .Home()),
+                                                      (Route<dynamic> route) =>
+                                                          false);
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: const Text('Tidak'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                              child: Card(
+                                elevation: 4, // Change this
+                                shadowColor: Colors.black12, // Change this
+                                child: Center(
+                                    child: SizedBox(
+                                  height: 150,
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/logout.png',
+                                        height: 75,
+                                      ),
+                                      const Text('Logout')
                                     ],
                                   )),
                                 )),

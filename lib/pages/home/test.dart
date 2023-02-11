@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ispa_app/models/test_home_model.dart';
 import 'package:ispa_app/pages/home/result.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:intl/intl.dart';
 
 class Test extends StatefulWidget {
   const Test({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageYearController = TextEditingController();
   TextEditingController ageMonthController = TextEditingController();
+  TextEditingController dateBirthController = TextEditingController();
 
   var genderData = [
     'Laki-laki',
@@ -100,56 +102,96 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
                               },
                             ),
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 20, right: 5),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: ageYearController,
-                                    decoration: const InputDecoration(
-                                        prefixIcon: Icon(Icons.account_circle),
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Umur (Tahun)',
-                                        hintText: '...',
-                                        suffixText: 'Tahun'),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Data belum diisi';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 20, left: 5),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: ageMonthController,
-                                    decoration: const InputDecoration(
-                                        prefixIcon: Icon(Icons.account_circle),
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Umur (Bulan)',
-                                        hintText: '...',
-                                        suffixText: 'Bulan'),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Data belum diisi';
-                                      } else if (int.parse(value) > 12) {
-                                        return 'Data tidak sesuai';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: TextFormField(
+                              controller: dateBirthController,
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Tanggal Lahir',
+                                  hintText: 'Masukkan Tanggal Lahir'),
+                              readOnly: true,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Data belum diisi';
+                                }
+                                return null;
+                              },
+                              onTap: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(
+                                        2000), //DateTime.now() - not to allow to choose before today.
+                                    lastDate: DateTime(2101));
+
+                                if (pickedDate != null) {
+                                  String formattedDate =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(pickedDate);
+
+                                  setState(() {
+                                    dateBirthController.text =
+                                        formattedDate; //set output date to TextField value.
+                                  });
+                                } else {}
+                              },
+                            ),
                           ),
+
+                          //set it true, so that user will not able to edit text
+
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(
+                          //             top: 10, bottom: 20, right: 5),
+                          //         child: TextFormField(
+                          //           keyboardType: TextInputType.number,
+                          //           controller: ageYearController,
+                          //           decoration: const InputDecoration(
+                          //               prefixIcon: Icon(Icons.account_circle),
+                          //               border: OutlineInputBorder(),
+                          //               labelText: 'Umur (Tahun)',
+                          //               hintText: '...',
+                          //               suffixText: 'Tahun'),
+                          //           validator: (value) {
+                          //             if (value == null || value.isEmpty) {
+                          //               return 'Data belum diisi';
+                          //             }
+                          //             return null;
+                          //           },
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(
+                          //             top: 10, bottom: 20, left: 5),
+                          //         child: TextFormField(
+                          //           keyboardType: TextInputType.number,
+                          //           controller: ageMonthController,
+                          //           decoration: const InputDecoration(
+                          //               prefixIcon: Icon(Icons.account_circle),
+                          //               border: OutlineInputBorder(),
+                          //               labelText: 'Umur (Bulan)',
+                          //               hintText: '...',
+                          //               suffixText: 'Bulan'),
+                          //           validator: (value) {
+                          //             if (value == null || value.isEmpty) {
+                          //               return 'Data belum diisi';
+                          //             } else if (int.parse(value) > 12) {
+                          //               return 'Data tidak sesuai';
+                          //             }
+                          //             return null;
+                          //           },
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: DropdownButtonFormField(
@@ -1163,20 +1205,22 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
                             });
                             testHomeModel
                                 .addTest(
-                              nameController.text,
-                              genderValue,
-                              ageYearController.text,
-                              ageMonthController.text,
-                              x1.toString(),
-                              x2.toString(),
-                              x3.toString(),
-                              x4.toString(),
-                              x5.toString(),
-                              x6.toString(),
-                              x7.toString(),
-                              x8.toString(),
-                              x9.toString(),
-                            )
+                                    "",
+                                    nameController.text,
+                                    genderValue,
+                                    ageYearController.text,
+                                    ageMonthController.text,
+                                    dateBirthController.text,
+                                    x1.toString(),
+                                    x2.toString(),
+                                    x3.toString(),
+                                    x4.toString(),
+                                    x5.toString(),
+                                    x6.toString(),
+                                    x7.toString(),
+                                    x8.toString(),
+                                    x9.toString(),
+                                    "false")
                                 .then((value) {
                               if (value['status'] == 200) {
                                 Fluttertoast.showToast(
@@ -1191,9 +1235,13 @@ class TestState extends State<Test> with SingleTickerProviderStateMixin {
                                       builder: (context) => Result(
                                             name: value['data']['name'],
                                             gender: value['data']['gender'],
-                                            ageYear: value['data']['age_year'],
-                                            ageMonth: value['data']
-                                                ['age_month'],
+                                            ageYear: value['data']['age_year']
+                                                .toString(),
+                                            ageMonth: value['data']['age_month']
+                                                .toString(),
+                                            dateBirth: value['data']
+                                                    ['date_birth'] ??
+                                                '',
                                             diseaseResultName: value['data']
                                                 ['disease_result']['name'],
                                             diseaseResultDefinition:

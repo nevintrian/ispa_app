@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:ispa_app/models/disease_model.dart';
 import 'package:ispa_app/models/patient_model.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class PatientEdit extends StatefulWidget {
+class VisitorEdit extends StatefulWidget {
   final int id;
+  final String nik;
   final String name;
   final String gender;
   final String ageYear;
@@ -21,10 +20,11 @@ class PatientEdit extends StatefulWidget {
   final String x7;
   final String x8;
   final String x9;
-  final String labelFromDisease;
-  const PatientEdit(
+  final String resultFromDiseaseId;
+  const VisitorEdit(
       {Key? key,
       required this.id,
+      required this.nik,
       required this.name,
       required this.gender,
       required this.ageYear,
@@ -39,20 +39,20 @@ class PatientEdit extends StatefulWidget {
       required this.x7,
       required this.x8,
       required this.x9,
-      required this.labelFromDisease})
+      required this.resultFromDiseaseId})
       : super(key: key);
 
   @override
-  PatientEditState createState() => PatientEditState();
+  VisitorEditState createState() => VisitorEditState();
 }
 
-class PatientEditState extends State<PatientEdit>
+class VisitorEditState extends State<VisitorEdit>
     with SingleTickerProviderStateMixin {
   int x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0;
   late String genderValue;
-  late int labelFromDiseaseValue;
+  late int resultFromDiseaseValue;
 
-  bool _saving = false;
+  final bool _saving = false;
   var formKey = GlobalKey<FormState>();
   PatientModel patientModel = PatientModel();
 
@@ -60,10 +60,10 @@ class PatientEditState extends State<PatientEdit>
   TextEditingController ageYearController = TextEditingController();
   TextEditingController ageMonthController = TextEditingController();
   TextEditingController dateBirthController = TextEditingController();
-
+  TextEditingController nikController = TextEditingController();
   late Future<dynamic> diseaseList;
   DiseaseModel diseaseModel = DiseaseModel();
-  var labelFromDiseaseData = [];
+  var resultFromDiseaseData = [];
 
   var genderData = [
     'Laki-laki',
@@ -95,12 +95,13 @@ class PatientEditState extends State<PatientEdit>
     _tabController = TabController(vsync: this, length: myTabs.length);
     diseaseList = diseaseModel
         .getDisease()
-        .then((value) => {labelFromDiseaseData = value!});
+        .then((value) => {resultFromDiseaseData = value!});
     nameController.text = widget.name;
+    nikController.text = widget.nik;
     ageYearController.text = widget.ageYear;
     ageMonthController.text = widget.ageMonth;
     dateBirthController.text = widget.dateBirth;
-    labelFromDiseaseValue = int.parse(widget.labelFromDisease);
+    resultFromDiseaseValue = int.parse(widget.resultFromDiseaseId);
     genderValue = widget.gender;
     x1 = int.parse(widget.x1);
     x2 = int.parse(widget.x2);
@@ -111,23 +112,6 @@ class PatientEditState extends State<PatientEdit>
     x7 = int.parse(widget.x7);
     x8 = int.parse(widget.x8);
     x9 = int.parse(widget.x9);
-  }
-
-  Future<void> hapusData() async {
-    setState(() {
-      _saving = true;
-    });
-    patientModel.deletePatient(widget.id).then((value) {
-      if (value['status'] == 200) {
-        Fluttertoast.showToast(
-            msg: value['message'],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.grey,
-            timeInSecForIosWeb: 1);
-        Navigator.pop(context, true);
-      }
-    });
   }
 
   @override
@@ -141,48 +125,10 @@ class PatientEditState extends State<PatientEdit>
             tabs: myTabs,
             controller: _tabController,
           ),
-          title: const Text('Ubah Data Pasien'),
+          title: const Text('Lihat Data Pengunjung'),
           centerTitle: true,
           backgroundColor: Colors.red,
           elevation: 0,
-          actions: [
-            InkWell(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Hapus Data Pasien'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: const <Widget>[
-                              Text('Apa anda ingin menghapus data?'),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Ya'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              hapusData();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text('Tidak'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    });
-              },
-              child: Container(
-                  padding: const EdgeInsets.all(15),
-                  child: const Icon(Icons.delete)),
-            )
-          ],
         ),
         body: ModalProgressHUD(
           inAsyncCall: _saving,
@@ -200,7 +146,26 @@ class PatientEditState extends State<PatientEdit>
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFormField(
+                              controller: nikController,
+                              readOnly: true,
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'NIK',
+                                  hintText: 'Masukkan NIK'),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Data belum diisi';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: TextFormField(
                               controller: nameController,
+                              readOnly: true,
                               decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.account_circle),
                                   border: OutlineInputBorder(),
@@ -230,25 +195,6 @@ class PatientEditState extends State<PatientEdit>
                                 }
                                 return null;
                               },
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(
-                                        2000), //DateTime.now() - not to allow to choose before today.
-                                    lastDate: DateTime(2101));
-
-                                if (pickedDate != null) {
-                                  String formattedDate =
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(pickedDate);
-
-                                  setState(() {
-                                    dateBirthController.text =
-                                        formattedDate; //set output date to TextField value.
-                                  });
-                                } else {}
-                              },
                             ),
                           ),
                           // Row(
@@ -258,6 +204,7 @@ class PatientEditState extends State<PatientEdit>
                           //         padding: const EdgeInsets.only(
                           //             top: 10, bottom: 20, right: 5),
                           //         child: TextFormField(
+                          //           readOnly: true,
                           //           keyboardType: TextInputType.number,
                           //           controller: ageYearController,
                           //           decoration: const InputDecoration(
@@ -280,6 +227,7 @@ class PatientEditState extends State<PatientEdit>
                           //         padding: const EdgeInsets.only(
                           //             top: 10, bottom: 20, left: 5),
                           //         child: TextFormField(
+                          //           readOnly: true,
                           //           keyboardType: TextInputType.number,
                           //           controller: ageMonthController,
                           //           decoration: const InputDecoration(
@@ -316,11 +264,7 @@ class PatientEditState extends State<PatientEdit>
                                   child: Text(items),
                                 );
                               }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  genderValue = newValue!;
-                                });
-                              },
+                              onChanged: null,
                               value: genderValue,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -339,18 +283,14 @@ class PatientEditState extends State<PatientEdit>
                                   labelText: 'Jenis Penyakit',
                                   hintText: 'Pilih Jenis Penyakit'),
                               icon: const Icon(Icons.keyboard_arrow_down),
-                              items: labelFromDiseaseData.map((item) {
+                              items: resultFromDiseaseData.map((item) {
                                 return DropdownMenuItem(
                                   value: item['id'],
                                   child: Text(item['name']),
                                 );
                               }).toList(),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  labelFromDiseaseValue = newValue as int;
-                                });
-                              },
-                              value: labelFromDiseaseValue,
+                              onChanged: null,
+                              value: resultFromDiseaseValue,
                               validator: (value) {
                                 if (value == null) {
                                   return 'Data belum diisi';
@@ -414,11 +354,6 @@ class PatientEditState extends State<PatientEdit>
                               ),
                               const SizedBox(height: 20),
                               GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    x1 = 1;
-                                  });
-                                },
                                 child: Container(
                                     height: 60,
                                     width: double.infinity,
@@ -441,25 +376,15 @@ class PatientEditState extends State<PatientEdit>
                                         children: [
                                           const Text("Ya"),
                                           Radio(
-                                            value: 1,
-                                            groupValue: x1,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                x1 = value!;
-                                              });
-                                            },
-                                          )
+                                              value: 1,
+                                              groupValue: x1,
+                                              onChanged: null)
                                         ],
                                       ),
                                     )),
                               ),
                               const SizedBox(height: 10),
                               GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    x1 = 0;
-                                  });
-                                },
                                 child: Container(
                                     height: 60,
                                     width: double.infinity,
@@ -482,14 +407,9 @@ class PatientEditState extends State<PatientEdit>
                                         children: [
                                           const Text("Tidak"),
                                           Radio(
-                                            value: 0,
-                                            groupValue: x1,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                x1 = value!;
-                                              });
-                                            },
-                                          )
+                                              value: 0,
+                                              groupValue: x1,
+                                              onChanged: null)
                                         ],
                                       ),
                                     )),
@@ -521,11 +441,6 @@ class PatientEditState extends State<PatientEdit>
                                 ),
                                 const SizedBox(height: 20),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x2 = 1;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -548,25 +463,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Lebih dari 14 hari"),
                                             Radio(
-                                              value: 1,
-                                              groupValue: x2,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x2 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 1,
+                                                groupValue: x2,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                                 const SizedBox(height: 10),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x2 = 0;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -589,14 +494,9 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Kurang dari 14 hari"),
                                             Radio(
-                                              value: 0,
-                                              groupValue: x2,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x2 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 0,
+                                                groupValue: x2,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
@@ -625,11 +525,6 @@ class PatientEditState extends State<PatientEdit>
                                 ),
                                 const SizedBox(height: 20),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x3 = 1;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -652,25 +547,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Ya"),
                                             Radio(
-                                              value: 1,
-                                              groupValue: x3,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x3 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 1,
+                                                groupValue: x3,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                                 const SizedBox(height: 10),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x3 = 0;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -693,14 +578,9 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Tidak"),
                                             Radio(
-                                              value: 0,
-                                              groupValue: x3,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x3 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 0,
+                                                groupValue: x3,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
@@ -729,11 +609,6 @@ class PatientEditState extends State<PatientEdit>
                                 ),
                                 const SizedBox(height: 20),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x4 = 1;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -756,25 +631,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Ya"),
                                             Radio(
-                                              value: 1,
-                                              groupValue: x4,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x4 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 1,
+                                                groupValue: x4,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                                 const SizedBox(height: 10),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x4 = 0;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -797,14 +662,9 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Tidak"),
                                             Radio(
-                                              value: 0,
-                                              groupValue: x4,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x4 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 0,
+                                                groupValue: x4,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
@@ -833,11 +693,6 @@ class PatientEditState extends State<PatientEdit>
                                 ),
                                 const SizedBox(height: 20),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x5 = 1;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -860,25 +715,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Ya"),
                                             Radio(
-                                              value: 1,
-                                              groupValue: x5,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x5 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 1,
+                                                groupValue: x5,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                                 const SizedBox(height: 10),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x5 = 0;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -901,14 +746,9 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Tidak"),
                                             Radio(
-                                              value: 0,
-                                              groupValue: x5,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x5 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 0,
+                                                groupValue: x5,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
@@ -937,11 +777,6 @@ class PatientEditState extends State<PatientEdit>
                                 ),
                                 const SizedBox(height: 20),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x6 = 1;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -964,25 +799,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Ya"),
                                             Radio(
-                                              value: 1,
-                                              groupValue: x6,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x6 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 1,
+                                                groupValue: x6,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                                 const SizedBox(height: 10),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x6 = 0;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -1005,14 +830,9 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Tidak"),
                                             Radio(
-                                              value: 0,
-                                              groupValue: x6,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x6 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 0,
+                                                groupValue: x6,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
@@ -1041,11 +861,6 @@ class PatientEditState extends State<PatientEdit>
                                 ),
                                 const SizedBox(height: 20),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x7 = 1;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -1068,25 +883,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Ya"),
                                             Radio(
-                                              value: 1,
-                                              groupValue: x7,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x7 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 1,
+                                                groupValue: x7,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                                 const SizedBox(height: 10),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x7 = 0;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -1109,14 +914,9 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Tidak"),
                                             Radio(
-                                              value: 0,
-                                              groupValue: x7,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x7 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 0,
+                                                groupValue: x7,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
@@ -1145,11 +945,6 @@ class PatientEditState extends State<PatientEdit>
                                 ),
                                 const SizedBox(height: 20),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x8 = 1;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -1172,25 +967,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Ya"),
                                             Radio(
-                                              value: 1,
-                                              groupValue: x8,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x8 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 1,
+                                                groupValue: x8,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                                 const SizedBox(height: 10),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x8 = 0;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -1213,14 +998,9 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Tidak"),
                                             Radio(
-                                              value: 0,
-                                              groupValue: x8,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x8 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 0,
+                                                groupValue: x8,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
@@ -1249,11 +1029,6 @@ class PatientEditState extends State<PatientEdit>
                                 ),
                                 const SizedBox(height: 20),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x9 = 1;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -1276,25 +1051,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Ya"),
                                             Radio(
-                                              value: 1,
-                                              groupValue: x9,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x9 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 1,
+                                                groupValue: x9,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                                 const SizedBox(height: 10),
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      x9 = 0;
-                                    });
-                                  },
                                   child: Container(
                                       height: 60,
                                       width: double.infinity,
@@ -1317,67 +1082,15 @@ class PatientEditState extends State<PatientEdit>
                                           children: [
                                             const Text("Tidak"),
                                             Radio(
-                                              value: 0,
-                                              groupValue: x9,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  x9 = value!;
-                                                });
-                                              },
-                                            )
+                                                value: 0,
+                                                groupValue: x9,
+                                                onChanged: null)
                                           ],
                                         ),
                                       )),
                                 ),
                               ]))),
                       const SizedBox(height: 30),
-                      Container(
-                        height: 50,
-                        width: width,
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _saving = true;
-                            });
-                            patientModel
-                                .updatePatient(
-                                    widget.id,
-                                    nameController.text,
-                                    genderValue,
-                                    ageYearController.text,
-                                    ageMonthController.text,
-                                    dateBirthController.text,
-                                    x1.toString(),
-                                    x2.toString(),
-                                    x3.toString(),
-                                    x4.toString(),
-                                    x5.toString(),
-                                    x6.toString(),
-                                    x7.toString(),
-                                    x8.toString(),
-                                    x9.toString(),
-                                    labelFromDiseaseValue.toString())
-                                .then((value) {
-                              if (value['status'] == 200) {
-                                Fluttertoast.showToast(
-                                    msg: value['message'],
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    backgroundColor: Colors.grey,
-                                    timeInSecForIosWeb: 1);
-                                Navigator.pop(context, true);
-                              }
-                            });
-                          },
-                          child: const Text(
-                            'Ubah',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

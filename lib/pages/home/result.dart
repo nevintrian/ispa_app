@@ -5,6 +5,7 @@ class Result extends StatefulWidget {
   final String gender;
   final String ageYear;
   final String ageMonth;
+  final String dateBirth;
   final String diseaseResultName;
   final String diseaseResultDefinition;
   final String diseaseResultCause;
@@ -15,6 +16,7 @@ class Result extends StatefulWidget {
       required this.gender,
       required this.ageYear,
       required this.ageMonth,
+      required this.dateBirth,
       required this.diseaseResultName,
       required this.diseaseResultDefinition,
       required this.diseaseResultCause,
@@ -51,11 +53,19 @@ class _ResultState extends State<Result> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Umur : ${widget.ageYear} Tahun, ${widget.ageMonth} Bulan",
+                    "Tanggal Lahir : ${widget.dateBirth}",
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
+                // Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: Text(
+                //     "Umur : ${widget.ageYear} Tahun, ${widget.ageMonth} Bulan",
+                //     style: const TextStyle(
+                //         fontSize: 18, fontWeight: FontWeight.bold),
+                //   ),
+                // ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(

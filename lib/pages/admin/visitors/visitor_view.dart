@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ispa_app/models/visitor_model.dart';
-import 'package:ispa_app/pages/admin/visitors/visitor_edit.dart';
+import 'package:ispa_app/pages/admin/visitors/visitor_nik.dart';
 
 class VisitorView extends StatefulWidget {
   const VisitorView({super.key});
@@ -63,27 +63,8 @@ class _VisitorViewState extends State<VisitorView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => VisitorEdit(
-                                          id: snapshot.data[index]['id'],
-                                          name: snapshot.data[index]['name'],
-                                          gender: snapshot.data[index]
-                                              ['gender'],
-                                          ageYear: snapshot.data[index]
-                                              ['age_year'],
-                                          ageMonth: snapshot.data[index]
-                                              ['age_month'],
-                                          x1: snapshot.data[index]['x1'],
-                                          x2: snapshot.data[index]['x2'],
-                                          x3: snapshot.data[index]['x3'],
-                                          x4: snapshot.data[index]['x4'],
-                                          x5: snapshot.data[index]['x5'],
-                                          x6: snapshot.data[index]['x6'],
-                                          x7: snapshot.data[index]['x7'],
-                                          x8: snapshot.data[index]['x8'],
-                                          x9: snapshot.data[index]['x9'],
-                                          resultFromDiseaseId:
-                                              snapshot.data[index]
-                                                  ['result_from_disease_id'],
+                                    builder: (context) => VisitorNik(
+                                          nik: snapshot.data[index]['nik'],
                                         )),
                               ).then((value) {
                                 if (value == true) {
@@ -92,11 +73,13 @@ class _VisitorViewState extends State<VisitorView> {
                               });
                             },
                             title: Text(snapshot.data[index]['name']),
-                            subtitle: Text(snapshot.data[index]['gender']),
-                            trailing: Text(snapshot.data[index]['age_year'] +
-                                ' Tahun, ' +
-                                snapshot.data[index]['age_month'] +
-                                ' Bulan'),
+                            subtitle: Text(snapshot.data[index]['nik']),
+                            // trailing: Text(snapshot.data[index]['age_year'] +
+                            //     ' Tahun, ' +
+                            //     snapshot.data[index]['age_month'] +
+                            //     ' Bulan'),
+                            trailing:
+                                Text(snapshot.data[index]['date_birth'] ?? ''),
                             leading: const Icon(Icons.account_circle),
                           ));
                         }),

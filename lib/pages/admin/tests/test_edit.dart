@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:ispa_app/models/disease_model.dart';
 import 'package:ispa_app/models/test_model.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -10,6 +11,7 @@ class TestEdit extends StatefulWidget {
   final String gender;
   final String ageYear;
   final String ageMonth;
+  final String dateBirth;
   final String x1;
   final String x2;
   final String x3;
@@ -30,6 +32,7 @@ class TestEdit extends StatefulWidget {
       required this.gender,
       required this.ageYear,
       required this.ageMonth,
+      required this.dateBirth,
       required this.x1,
       required this.x2,
       required this.x3,
@@ -62,6 +65,7 @@ class TestEditState extends State<TestEdit>
   TextEditingController nameController = TextEditingController();
   TextEditingController ageYearController = TextEditingController();
   TextEditingController ageMonthController = TextEditingController();
+  TextEditingController dateBirthController = TextEditingController();
   TextEditingController diseaseResultController = TextEditingController();
   TextEditingController diseaseLabelController = TextEditingController();
   TextEditingController isCorrectController = TextEditingController();
@@ -108,6 +112,7 @@ class TestEditState extends State<TestEdit>
     nameController.text = widget.name;
     ageYearController.text = widget.ageYear;
     ageMonthController.text = widget.ageMonth;
+    dateBirthController.text = widget.dateBirth;
     labelFromDiseaseValue = int.parse(widget.labelFromDisease);
     genderValue = widget.gender;
     diseaseResultController.text = widget.diseaseResult;
@@ -226,56 +231,93 @@ class TestEditState extends State<TestEdit>
                               },
                             ),
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 20, right: 5),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: ageYearController,
-                                    decoration: const InputDecoration(
-                                        prefixIcon: Icon(Icons.account_circle),
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Umur (Tahun)',
-                                        hintText: '...',
-                                        suffixText: 'Tahun'),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Data belum diisi';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 20, left: 5),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: ageMonthController,
-                                    decoration: const InputDecoration(
-                                        prefixIcon: Icon(Icons.account_circle),
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Umur (Bulan)',
-                                        hintText: '...',
-                                        suffixText: 'Bulan'),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Data belum diisi';
-                                      } else if (int.parse(value) > 12) {
-                                        return 'Data tidak sesuai';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
+                              Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: TextFormField(
+                              controller: dateBirthController,
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Tanggal Lahir',
+                                  hintText: 'Masukkan Tanggal Lahir'),
+                              readOnly: true,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Data belum diisi';
+                                }
+                                return null;
+                              },
+                              onTap: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(
+                                        2000), //DateTime.now() - not to allow to choose before today.
+                                    lastDate: DateTime(2101));
+
+                                if (pickedDate != null) {
+                                  String formattedDate =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(pickedDate);
+
+                                  setState(() {
+                                    dateBirthController.text =
+                                        formattedDate; //set output date to TextField value.
+                                  });
+                                } else {}
+                              },
+                            ),
                           ),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(
+                          //             top: 10, bottom: 20, right: 5),
+                          //         child: TextFormField(
+                          //           keyboardType: TextInputType.number,
+                          //           controller: ageYearController,
+                          //           decoration: const InputDecoration(
+                          //               prefixIcon: Icon(Icons.account_circle),
+                          //               border: OutlineInputBorder(),
+                          //               labelText: 'Umur (Tahun)',
+                          //               hintText: '...',
+                          //               suffixText: 'Tahun'),
+                          //           validator: (value) {
+                          //             if (value == null || value.isEmpty) {
+                          //               return 'Data belum diisi';
+                          //             }
+                          //             return null;
+                          //           },
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(
+                          //             top: 10, bottom: 20, left: 5),
+                          //         child: TextFormField(
+                          //           keyboardType: TextInputType.number,
+                          //           controller: ageMonthController,
+                          //           decoration: const InputDecoration(
+                          //               prefixIcon: Icon(Icons.account_circle),
+                          //               border: OutlineInputBorder(),
+                          //               labelText: 'Umur (Bulan)',
+                          //               hintText: '...',
+                          //               suffixText: 'Bulan'),
+                          //           validator: (value) {
+                          //             if (value == null || value.isEmpty) {
+                          //               return 'Data belum diisi';
+                          //             } else if (int.parse(value) > 12) {
+                          //               return 'Data tidak sesuai';
+                          //             }
+                          //             return null;
+                          //           },
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: DropdownButtonFormField(
@@ -1390,6 +1432,7 @@ class TestEditState extends State<TestEdit>
                                     genderValue,
                                     ageYearController.text,
                                     ageMonthController.text,
+                                    dateBirthController.text,
                                     x1.toString(),
                                     x2.toString(),
                                     x3.toString(),

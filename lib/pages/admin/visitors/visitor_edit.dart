@@ -9,6 +9,7 @@ class VisitorEdit extends StatefulWidget {
   final String gender;
   final String ageYear;
   final String ageMonth;
+  final String dateBirth;
   final String x1;
   final String x2;
   final String x3;
@@ -26,6 +27,7 @@ class VisitorEdit extends StatefulWidget {
       required this.gender,
       required this.ageYear,
       required this.ageMonth,
+      required this.dateBirth,
       required this.x1,
       required this.x2,
       required this.x3,
@@ -55,7 +57,7 @@ class VisitorEditState extends State<VisitorEdit>
   TextEditingController nameController = TextEditingController();
   TextEditingController ageYearController = TextEditingController();
   TextEditingController ageMonthController = TextEditingController();
-
+  TextEditingController dateBirthController = TextEditingController();
   late Future<dynamic> diseaseList;
   DiseaseModel diseaseModel = DiseaseModel();
   var resultFromDiseaseData = [];
@@ -94,6 +96,7 @@ class VisitorEditState extends State<VisitorEdit>
     nameController.text = widget.name;
     ageYearController.text = widget.ageYear;
     ageMonthController.text = widget.ageMonth;
+    dateBirthController.text = widget.dateBirth;
     resultFromDiseaseValue = int.parse(widget.resultFromDiseaseId);
     genderValue = widget.gender;
     x1 = int.parse(widget.x1);
@@ -154,58 +157,76 @@ class VisitorEditState extends State<VisitorEdit>
                               },
                             ),
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 20, right: 5),
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    keyboardType: TextInputType.number,
-                                    controller: ageYearController,
-                                    decoration: const InputDecoration(
-                                        prefixIcon: Icon(Icons.account_circle),
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Umur (Tahun)',
-                                        hintText: '...',
-                                        suffixText: 'Tahun'),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Data belum diisi';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 20, left: 5),
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    keyboardType: TextInputType.number,
-                                    controller: ageMonthController,
-                                    decoration: const InputDecoration(
-                                        prefixIcon: Icon(Icons.account_circle),
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Umur (Bulan)',
-                                        hintText: '...',
-                                        suffixText: 'Bulan'),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Data belum diisi';
-                                      } else if (int.parse(value) > 12) {
-                                        return 'Data tidak sesuai';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: TextFormField(
+                              controller: dateBirthController,
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.account_circle),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Tanggal Lahir',
+                                  hintText: 'Masukkan Tanggal Lahir'),
+                              readOnly: true,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Data belum diisi';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(
+                          //             top: 10, bottom: 20, right: 5),
+                          //         child: TextFormField(
+                          //           readOnly: true,
+                          //           keyboardType: TextInputType.number,
+                          //           controller: ageYearController,
+                          //           decoration: const InputDecoration(
+                          //               prefixIcon: Icon(Icons.account_circle),
+                          //               border: OutlineInputBorder(),
+                          //               labelText: 'Umur (Tahun)',
+                          //               hintText: '...',
+                          //               suffixText: 'Tahun'),
+                          //           validator: (value) {
+                          //             if (value == null || value.isEmpty) {
+                          //               return 'Data belum diisi';
+                          //             }
+                          //             return null;
+                          //           },
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(
+                          //             top: 10, bottom: 20, left: 5),
+                          //         child: TextFormField(
+                          //           readOnly: true,
+                          //           keyboardType: TextInputType.number,
+                          //           controller: ageMonthController,
+                          //           decoration: const InputDecoration(
+                          //               prefixIcon: Icon(Icons.account_circle),
+                          //               border: OutlineInputBorder(),
+                          //               labelText: 'Umur (Bulan)',
+                          //               hintText: '...',
+                          //               suffixText: 'Bulan'),
+                          //           validator: (value) {
+                          //             if (value == null || value.isEmpty) {
+                          //               return 'Data belum diisi';
+                          //             } else if (int.parse(value) > 12) {
+                          //               return 'Data tidak sesuai';
+                          //             }
+                          //             return null;
+                          //           },
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: DropdownButtonFormField(

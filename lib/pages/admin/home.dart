@@ -595,7 +595,7 @@ class _HomeState extends State<Home> {
                                         'assets/images/visitor.png',
                                         height: 75,
                                       ),
-                                      const Text('Data Pengujung')
+                                      const Text('Data Pengunjung')
                                     ],
                                   )),
                                 )),

@@ -69,9 +69,11 @@ class _PatientViewState extends State<PatientView> {
                                         name: snapshot.data[index]['name'],
                                         gender: snapshot.data[index]['gender'],
                                         ageYear: snapshot.data[index]
-                                            ['age_year'],
+                                            ['age_year'] ?? '',
                                         ageMonth: snapshot.data[index]
-                                            ['age_month'],
+                                            ['age_month'] ?? '',
+                                        dateBirth: snapshot.data[index]
+                                            ['date_birth'] ?? '',
                                         x1: snapshot.data[index]['x1'],
                                         x2: snapshot.data[index]['x2'],
                                         x3: snapshot.data[index]['x3'],
@@ -91,10 +93,12 @@ class _PatientViewState extends State<PatientView> {
                             },
                             title: Text(snapshot.data[index]['name']),
                             subtitle: Text(snapshot.data[index]['gender']),
-                            trailing: Text(snapshot.data[index]['age_year'] +
-                                ' Tahun, ' +
-                                snapshot.data[index]['age_month'] +
-                                ' Bulan'),
+                            // trailing: Text(snapshot.data[index]['age_year'] +
+                            //     ' Tahun, ' +
+                            //     snapshot.data[index]['age_month'] +
+                            //     ' Bulan'),
+                            trailing:
+                                Text(snapshot.data[index]['date_birth'] ?? ''),
                             leading: const Icon(Icons.account_circle),
                           ));
                         }),

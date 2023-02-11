@@ -1,50 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:ispa_app/models/test_model.dart';
-import 'package:ispa_app/pages/admin/tests/test_create.dart';
-import 'package:ispa_app/pages/admin/tests/test_edit.dart';
+import 'package:intl/intl.dart';
+import 'package:ispa_app/models/session_model.dart';
+import 'package:ispa_app/models/visitor_model.dart';
+import 'package:ispa_app/pages/visitor/visitors/visitor_edit.dart';
 
-class TestView extends StatefulWidget {
-  const TestView({super.key});
+class VisitorView extends StatefulWidget {
+  const VisitorView({super.key});
 
   @override
-  State<TestView> createState() => _TestViewState();
+  State<VisitorView> createState() => _VisitorViewState();
 }
 
-class _TestViewState extends State<TestView> {
-  late Future<List<dynamic>?> testList;
-  TestModel testModel = TestModel();
+class _VisitorViewState extends State<VisitorView> {
+  SessionModel sessionModel = SessionModel();
+  String dataNik = "";
+  late Future<List<dynamic>?> visitorList;
+  VisitorModel visitorModel = VisitorModel();
   Future<void> _pullRefresh() async {
-    setState(() {
-      testList = testModel.getTest();
+    sessionModel.getSession('nik').then((value) {
+      setState(() {
+        if (value != null) {
+          dataNik = value;
+        }
+        visitorList = visitorModel.getVisitorByNik(dataNik);
+      });
     });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setState(() {
-      testList = testModel.getTest();
+    sessionModel.getSession('nik').then((value) {
+      setState(() {
+        if (value != null) {
+          dataNik = value;
+        }
+        visitorList = visitorModel.getVisitorByNik(dataNik);
+      });
     });
   }
 
   @override
   void initState() {
     super.initState();
-    testList = testModel.getTest();
+    sessionModel.getSession('nik').then((value) {
+      setState(() {
+        if (value != null) {
+          dataNik = value;
+        }
+      });
+    });
+    visitorList = visitorModel.getVisitorByNik(dataNik);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Pengujian'),
+        title: const Text('Data Pengunjung'),
         centerTitle: true,
         backgroundColor: Colors.red,
         elevation: 0,
       ),
       body: SizedBox(
         child: FutureBuilder<List<dynamic>?>(
-            future: testList,
+            future: visitorList,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -64,17 +84,21 @@ class _TestViewState extends State<TestView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TestEdit(
+                                    builder: (context) => VisitorEdit(
                                           id: snapshot.data[index]['id'],
+                                          nik: snapshot.data[index]['nik'],
                                           name: snapshot.data[index]['name'],
                                           gender: snapshot.data[index]
                                               ['gender'],
                                           ageYear: snapshot.data[index]
-                                              ['age_year'] ?? 0,
+                                                  ['age_year'] ??
+                                              '',
                                           ageMonth: snapshot.data[index]
-                                              ['age_month'] ?? 0,
+                                                  ['age_month'] ??
+                                              '',
                                           dateBirth: snapshot.data[index]
-                                              ['date_birth'] ?? '',
+                                                  ['date_birth'] ??
+                                              '',
                                           x1: snapshot.data[index]['x1'],
                                           x2: snapshot.data[index]['x2'],
                                           x3: snapshot.data[index]['x3'],
@@ -84,14 +108,9 @@ class _TestViewState extends State<TestView> {
                                           x7: snapshot.data[index]['x7'],
                                           x8: snapshot.data[index]['x8'],
                                           x9: snapshot.data[index]['x9'],
-                                          labelFromDisease: snapshot.data[index]
-                                              ['label_from_disease_id'],
-                                          diseaseResult: snapshot.data[index]
-                                              ['disease_result']['name'],
-                                          diseaseLabel: snapshot.data[index]
-                                              ['disease_label']['name'],
-                                          isCorrect: snapshot.data[index]
-                                              ['is_correct'],
+                                          resultFromDiseaseId:
+                                              snapshot.data[index]
+                                                  ['result_from_disease_id'],
                                         )),
                               ).then((value) {
                                 if (value == true) {
@@ -99,14 +118,10 @@ class _TestViewState extends State<TestView> {
                                 }
                               });
                             },
-                            title: Text(snapshot.data[index]['name']),
-                            subtitle: Text(snapshot.data[index]['gender']),
-                            // trailing: Text(snapshot.data[index]['age_year'] +
-                            //     ' Tahun, ' +
-                            //     snapshot.data[index]['age_month'] +
-                            //     ' Bulan'),
-                            trailing:
-                                Text(snapshot.data[index]['date_birth'] ?? ''),
+                            title: Text(DateFormat('dd-mm-yyyy HH:mm').format(
+                                DateTime.parse(
+                                        snapshot.data[index]['created_at'])
+                                    .add(const Duration(hours: 7)))),
                             leading: const Icon(Icons.account_circle),
                           ));
                         }),
@@ -116,20 +131,6 @@ class _TestViewState extends State<TestView> {
                 }
               }
             }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const TestCreate()),
-          ).then((value) {
-            if (value == true) {
-              _pullRefresh();
-            }
-          });
-        },
-        backgroundColor: Colors.red,
-        child: const Icon(Icons.add),
       ),
     );
   }
